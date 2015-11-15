@@ -1,7 +1,6 @@
-Production ![Production Environment](https://travis-ci.org/FramesNPictures/universal-dto.svg?branch=master "Production Environment")
-Development ![Production Environment](https://travis-ci.org/FramesNPictures/universal-dto.svg?branch=develop "Development Environment")
+# Universal Data Transport Object Library
 
-# Universal Data Transport Object for Laravel
+![Production Environment](https://travis-ci.org/FramesNPictures/universal-dto.svg?branch=master "Production Environment")
 
-Universal Dto Library
+Universal Dto Library for Laravel
 

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "725ce3ee7fd3dcceee9ce4d74a24ebb7",
-    "content-hash": "5506541464781d9f267ba64ebd70e343",
+    "hash": "c8b88a6c9cdb5c9b922811ca41b92202",
+    "content-hash": "b9a9c0a4b33d5020b82fd4481d45a14a",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -368,12 +368,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "783936aaae4cc8aed805a23ed0335f15a4f41b5a"
+                "reference": "49fa418cb17a27a7107f541e8ffff0f8d9d2a8fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/26340ed017ac93f9e7d34be2c923b956207a9cd4",
-                "reference": "783936aaae4cc8aed805a23ed0335f15a4f41b5a",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/49fa418cb17a27a7107f541e8ffff0f8d9d2a8fb",
+                "reference": "49fa418cb17a27a7107f541e8ffff0f8d9d2a8fb",
                 "shasum": ""
             },
             "require": {
@@ -489,20 +489,20 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2015-11-14 18:11:44"
+            "time": "2015-11-16 16:00:30"
         },
         {
             "name": "laravel/laravel",
-            "version": "dev-master",
+            "version": "v5.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/laravel.git",
-                "reference": "8476df5c9eeb1489db64f7aa3456b38ae74d090d"
+                "reference": "716e65268ae088e5bd73e505acf9695c127aff66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/laravel/zipball/8476df5c9eeb1489db64f7aa3456b38ae74d090d",
-                "reference": "8476df5c9eeb1489db64f7aa3456b38ae74d090d",
+                "url": "https://api.github.com/repos/laravel/laravel/zipball/716e65268ae088e5bd73e505acf9695c127aff66",
+                "reference": "716e65268ae088e5bd73e505acf9695c127aff66",
                 "shasum": ""
             },
             "require": {
@@ -533,7 +533,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2015-11-06 15:23:30"
+            "time": "2015-08-30 11:31:33"
         },
         {
             "name": "league/flysystem",
@@ -2774,9 +2774,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "laravel/laravel": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

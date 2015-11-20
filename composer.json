@@ -9,7 +9,7 @@
   ],
   "minimum-stability": "dev",
   "require": {
-    "laravel/framework": "5.*"
+    "illuminate/support": ">=4.12"
   },
   "autoload": {
     "psr-4": {

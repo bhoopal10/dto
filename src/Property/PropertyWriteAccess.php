@@ -9,7 +9,7 @@ namespace Fnp\Dto\Property;
  */
 trait PropertyWriteAccess
 {
-    function __set($name, $value)
+    public function __set($name, $value)
     {
         $this->populateItems([$name => $value]);
     }

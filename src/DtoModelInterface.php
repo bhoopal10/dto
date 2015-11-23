@@ -4,6 +4,7 @@ namespace Fnp\Dto;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Support\Collection;
 
 interface DtoModelInterface extends Arrayable, Jsonable
 {

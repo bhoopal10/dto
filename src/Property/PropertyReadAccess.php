@@ -9,7 +9,7 @@ namespace Fnp\Dto\Property;
  */
 trait PropertyReadAccess
 {
-    function __get($name)
+    public function __get($name)
     {
         $getter = 'get' . ucfirst(camel_case($name));
 

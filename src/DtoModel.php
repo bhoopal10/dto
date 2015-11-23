@@ -15,7 +15,7 @@ class DtoModel implements DtoModelInterface
      *
      * @return $this|Collection
      */
-    static public function make($items)
+    public static function make($items)
     {
         if ($items instanceof Collection) {
             return DtoCollectionFactory::make(get_called_class(), $items);
@@ -60,9 +60,9 @@ class DtoModel implements DtoModelInterface
             }
 
             if ($value) {
-                $setter = 'set' . ucfirst(Str::camel($var));
+                $setter = $this->methodExists('set', $var);
 
-                if (method_exists($this, $setter)) {
+                if ($setter) {
                     $this->$setter($value);
                 } else {
                     $this->$var = $value;
@@ -88,9 +88,9 @@ class DtoModel implements DtoModelInterface
             if ($this->$var instanceof Arrayable) {
                 $array[ $var ] = $this->$var->toArray();
             } else {
-                $getter = 'get' . ucfirst(Str::camel($var));
+                $getter = $this->methodExists('get', $var);
 
-                if (method_exists($this, $getter)) {
+                if ($getter) {
                     $array [ $var ] = $this->$getter();
                 } else {
                     $array[ $var ] = $this->$var;
@@ -99,6 +99,22 @@ class DtoModel implements DtoModelInterface
         }
 
         return $array;
+    }
+
+    /**
+     * Checks if method exists in the current model.
+     * Returns method name if it does or NULL otherwise.
+     *
+     * @param string $type
+     * @param string $name
+     *
+     * @return null|string
+     */
+    private function methodExists($type, $name)
+    {
+        $method = $type . ucfirst(Str::camel($name));
+
+        return method_exists($method, TRUE) ? $method : NULL;
     }
 
     /**

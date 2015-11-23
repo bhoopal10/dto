@@ -16,11 +16,11 @@ class DtoCollectionFactory
      * Converts extisting collection to use models of a given class
      * or creates a new one.
      *
-     * @param $dtoClass
-     * @param $collection
+     * @param string $dtoClass
+     * @param Collection|array|mixed $collection
      *
-     * @return \Illuminate\Support\Collection|null|static
-     * @throws \Fnp\Dto\Exception\DtoClassNotExistsException
+     * @return Collection|null|static
+     * @throws DtoClassNotExistsException
      */
     public static function make($dtoClass, $collection)
     {

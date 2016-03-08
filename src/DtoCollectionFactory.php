@@ -29,9 +29,11 @@ class DtoCollectionFactory
         }
 
         if (!class_exists($dtoClass, TRUE)) {
-            throw new DtoClassNotExistsException(
-                sprintf('Dto class %s not exists', $dtoClass)
-            );
+            throw DtoClassNotExistsException::make($dtoClass);
+        }
+
+        if ($collection instanceof \stdClass) {
+            $collection = get_class_vars($collection);
         }
 
         if (!$collection instanceof Collection) {

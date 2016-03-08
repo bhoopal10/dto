@@ -36,30 +36,43 @@ class DtoModel implements DtoModelInterface
      */
     public function populateItems($items)
     {
+
+        if ($items instanceof \stdClass) {
+            $items = get_object_vars($items);
+        }
+
         $reflection = new \ReflectionClass($this);
         $vars       = $reflection->getProperties();
 
         foreach ($vars as $var) {
             $var   = $var->getName();
             $value = NULL;
+            $found = FALSE;
 
-            if (isset( $items[ $var ] )) {
-                $value = $items[ $var ];
-            } else {
-                $camelVersion = Str::camel($var);
+            if (isset($items[$var])) {
+                $value = $items[$var];
+                $found = TRUE;
+            }
 
-                if (isset( $items[ $camelVersion ] )) {
-                    $value = $items[ $camelVersion ];
-                }
+            if (!$found) {
+                $snakeVersion = Str::snake($var);
 
-                $snakeVersion = snake_case($var);
-
-                if (isset( $items[ $snakeVersion ] )) {
-                    $value = $items[ $snakeVersion ];
+                if (isset($items[$snakeVersion])) {
+                    $value = $items[$snakeVersion];
+                    $found = TRUE;
                 }
             }
 
-            if ($value) {
+            if (!$found) {
+                $camelVersion = Str::camel($var);
+
+                if (isset($items[$camelVersion])) {
+                    $value = $items[$camelVersion];
+                    $found = TRUE;
+                }
+            }
+
+            if ($found) {
                 $setter = $this->methodExists('set', $var);
 
                 if ($setter) {
@@ -86,14 +99,14 @@ class DtoModel implements DtoModelInterface
 
         foreach ($vars as $var) {
             if ($this->$var instanceof Arrayable) {
-                $array[ $var ] = $this->$var->toArray();
+                $array[$var] = $this->$var->toArray();
             } else {
                 $getter = $this->methodExists('get', $var);
 
                 if ($getter) {
-                    $array [ $var ] = $this->$getter();
+                    $array [$var] = $this->$getter();
                 } else {
-                    $array[ $var ] = $this->$var;
+                    $array[$var] = $this->$var;
                 }
             }
         }
@@ -114,7 +127,7 @@ class DtoModel implements DtoModelInterface
     {
         $method = $type . ucfirst(Str::camel($name));
 
-        return method_exists($method, TRUE) ? $method : NULL;
+        return method_exists($this, $method) ? $method : NULL;
     }
 
     /**

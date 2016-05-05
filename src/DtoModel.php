@@ -2,11 +2,13 @@
 
 namespace Fnp\Dto;
 
+use Fnp\Dto\Collection\DtoCollectionFactory;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-class DtoModel implements DtoModelInterface
+class DtoModel implements DtoModelInterface, Jsonable
 {
     /**
      * Make model with initial data
@@ -18,13 +20,26 @@ class DtoModel implements DtoModelInterface
     public static function make($items)
     {
         if ($items instanceof Collection) {
-            return DtoCollectionFactory::make(get_called_class(), $items);
+            return self::collection($items);
         }
 
         $instance = new static;
         $instance->populateItems($items);
 
         return $instance;
+    }
+
+    /**
+     * Make model collection with initial data
+     *
+     * @param $items
+     *
+     * @return Collection|null
+     * @throws Exception\DtoClassNotExistsException
+     */
+    public static function collection($items)
+    {
+        return DtoCollectionFactory::make(get_called_class(), $items);
     }
 
     /**
@@ -36,6 +51,9 @@ class DtoModel implements DtoModelInterface
      */
     public function populateItems($items)
     {
+        if ($items instanceof DtoModel) {
+            $items = $items->toArray();
+        }
 
         if ($items instanceof \stdClass) {
             $items = get_object_vars($items);

@@ -1,7 +1,8 @@
 <?php
 
-namespace Fnp\Dto;
+namespace Fnp\Dto\Collection;
 
+use Fnp\Dto\DtoModel;
 use Fnp\Dto\Exception\DtoClassNotExistsException;
 use Illuminate\Support\Collection;
 
@@ -13,22 +14,22 @@ use Illuminate\Support\Collection;
 class DtoCollectionFactory
 {
     /**
-     * Converts extisting collection to use models of a given class
+     * Converts existing collection to use models of a given class
      * or creates a new one.
      *
      * @param string $dtoClass
      * @param Collection|array|mixed $collection
      *
-     * @return Collection|null|static
+     * @return Collection|null
      * @throws DtoClassNotExistsException
      */
     public static function make($dtoClass, $collection)
     {
-        if (!$collection || !$dtoClass) {
-            return NULL;
+        if (!$collection) {
+            $collection = [];
         }
 
-        if (!class_exists($dtoClass, TRUE)) {
+        if (!$dtoClass || !class_exists($dtoClass, TRUE)) {
             throw DtoClassNotExistsException::make($dtoClass);
         }
 

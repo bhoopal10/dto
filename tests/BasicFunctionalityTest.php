@@ -4,24 +4,41 @@ use Illuminate\Support\Str;
 
 class BasicFunctionalityTest extends PHPUnit_Framework_TestCase
 {
-    public function testTest()
+    protected $data = [
+        'alfa_romeo' => 'Julietta',
+        'bmw'        => 'i3',
+        'citroen'    => 'C3',
+        'jaguar'     => 'XJ',
+        'saab'       => '900',
+        'tesla'      => 's',
+        'volvo'      => 'V90',
+    ];
+    
+    public function testArrayApply()
     {
-        $data = [
-            'alfa_romeo' => 'Julietta',
-            'bmw'        => 'i3',
-            'citroen'    => 'C3',
-            'jaguar'     => 'XJ',
-            'saab'       => '900',
-            'tesla'      => 's',
-            'volvo'      => 'V90',
-        ];
+        $cars = Cars::make($this->data);
 
-        $cars = Cars::make($data);
+        $this->assertEquals(count($this->data), count($cars->toArray()));
 
-        $this->assertEquals(count($data), count($cars->toArray()));
-
-        foreach ($data as $key => $value) {
+        foreach ($this->data as $key => $value) {
             $this->assertEquals($value, $cars->toArray()[ Str::camel($key) ]);
+        }
+        
+        return $cars;
+    }
+
+    /**
+     * @param $cars
+     * @depends testArrayApply
+     */
+    public function testDtoApply($cars)
+    {
+        $model = Cars::make($cars);
+
+        $this->assertEquals(count($this->data), count($model->toArray()));
+
+        foreach ($this->data as $key => $value) {
+            $this->assertEquals($value, $model->toArray()[ Str::camel($key) ]);
         }
     }
 }

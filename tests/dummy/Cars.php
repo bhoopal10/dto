@@ -1,6 +1,6 @@
 <?php
 
-use Fnp\Dto\DtoModel;
+use Fnp\Dto\Flex\DtoModel;
 
 class Cars extends DtoModel
 {

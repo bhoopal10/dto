@@ -2,8 +2,8 @@
 
 namespace Fnp\Dto\Collection;
 
-use Fnp\Dto\DtoModel;
 use Fnp\Dto\Exception\DtoClassNotExistsException;
+use Fnp\Dto\Flex\DtoModel;
 use Illuminate\Support\Collection;
 
 /**

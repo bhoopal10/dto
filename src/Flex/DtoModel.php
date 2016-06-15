@@ -1,15 +1,20 @@
 <?php
 
-namespace Fnp\Dto;
+namespace Fnp\Dto\Flex;
 
 use Fnp\Dto\Collection\DtoCollectionFactory;
-use Illuminate\Contracts\Support\Arrayable;
+use Fnp\Dto\Common\ToArray;
+use Fnp\Dto\Common\ToJson;
+use Fnp\Dto\Contract\DtoModelContract;
+use Fnp\Dto\Exception;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-class DtoModel implements DtoModelInterface, Jsonable
+class DtoModel implements DtoModelContract, Jsonable
 {
+    use ToArray, ToJson;
+    
     /**
      * Make model with initial data
      *
@@ -100,63 +105,5 @@ class DtoModel implements DtoModelInterface, Jsonable
                 }
             }
         }
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @return array
-     */
-    public function toArray()
-    {
-        $vars = array_keys(
-            get_class_vars(get_called_class())
-        );
-
-        $array = [];
-
-        foreach ($vars as $var) {
-            if ($this->$var instanceof Arrayable) {
-                $array[$var] = $this->$var->toArray();
-            } else {
-                $getter = $this->methodExists('get', $var);
-
-                if ($getter) {
-                    $array [$var] = $this->$getter();
-                } else {
-                    $array[$var] = $this->$var;
-                }
-            }
-        }
-
-        return $array;
-    }
-
-    /**
-     * Checks if method exists in the current model.
-     * Returns method name if it does or NULL otherwise.
-     *
-     * @param string $type
-     * @param string $name
-     *
-     * @return null|string
-     */
-    private function methodExists($type, $name)
-    {
-        $method = $type . ucfirst(Str::camel($name));
-
-        return method_exists($this, $method) ? $method : NULL;
-    }
-
-    /**
-     * @inheritdoc
-     *
-     * @param int $options
-     *
-     * @return string
-     */
-    public function toJson($options = 0)
-    {
-        return json_encode($this->toArray(), $options);
     }
 }

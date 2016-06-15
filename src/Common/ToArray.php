@@ -3,6 +3,7 @@
 namespace Fnp\Dto\Common;
 
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Str;
 
 trait ToArray
 {

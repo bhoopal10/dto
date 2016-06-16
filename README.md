@@ -6,5 +6,22 @@
 [![License](https://poser.pugx.org/framesnpictures/universal-dto/license)](https://packagist.org/packages/framesnpictures/universal-dto)
 ![Production Environment](https://travis-ci.org/FramesNPictures/universal-dto.svg?branch=master "Production Environment")
 
-Universal Dto Library for Laravel
+## Usual Use Cases
 
+### API Output
+
+### Array to Structured Model Conversion
+
+### Data Mapping
+
+### Input Mapping
+
+## Classes
+
+### Basic DTO
+
+### Flexible DTO
+
+### Mapper
+
+### Validation

@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Str;
 
+require_once 'flex/Cars.php';
+
 class BasicFunctionalityTest extends PHPUnit_Framework_TestCase
 {
     protected $data = [

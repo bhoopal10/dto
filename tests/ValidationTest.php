@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Str;
 
-include 'dummy/Cars.php';
+require_once 'flex/Cars.php';
 
 class ValidationTest extends PHPUnit_Framework_TestCase
 {

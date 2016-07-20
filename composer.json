@@ -9,7 +9,7 @@
   ],
   "minimum-stability": "dev",
   "require": {
-    "illuminate/support": "^5.2"
+    "illuminate/support": "~5.1 ~5.2"
   },
   "autoload": {
     "psr-4": {

@@ -1,32 +1,37 @@
 <?php
 
+use Illuminate\Hashing\BcryptHasher;
+
 class UserDto extends \Fnp\Dto\Basic\DtoModel
 {
-    protected $id;
+    protected $userName;
     protected $email;
+    protected $name;
+    private   $password;
 
-    public function __construct($userId, $email)
+    public function __construct($userName, $email, $name)
     {
-        $this->id    = $userId;
-        $this->email = $email;
+        $this->userName = $userName;
+        $this->email    = $email;
+        $this->name     = $name;
     }
 
     /**
      * @return mixed
      */
-    public function getId()
+    public function getUserName()
     {
-        return $this->id;
+        return $this->userName;
     }
 
     /**
-     * @param mixed $id
+     * @param mixed $userName
      *
      * @return UserDto
      */
-    public function setId($id)
+    public function setUserName($userName)
     {
-        $this->id = $id;
+        $this->userName = $userName;
 
         return $this;
     }
@@ -50,6 +55,49 @@ class UserDto extends \Fnp\Dto\Basic\DtoModel
 
         return $this;
     }
-    
-    
+
+    /**
+     * @return mixed
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
+     *
+     * @return UserDto
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param mixed $password
+     *
+     * @return UserDto
+     */
+    public function setPassword($password)
+    {
+        /*
+         * Please note this is purely for testing purposes.
+         * Do not hash your passwords this way.
+         */
+        $this->password = sha1($password);
+
+        return $this;
+    }
+
 }

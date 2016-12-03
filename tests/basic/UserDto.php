@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Hashing\BcryptHasher;
-
-class UserDto extends \Fnp\Dto\Basic\DtoModel
+class UserDto extends \Fnp\Dto\Basic\DtoModel implements IteratorAggregate
 {
+    use \Fnp\Dto\Common\DtoIteratorAggregate;
+
     protected $userName;
     protected $email;
     protected $name;
@@ -93,7 +93,7 @@ class UserDto extends \Fnp\Dto\Basic\DtoModel
     {
         /*
          * Please note this is purely for testing purposes.
-         * Do not hash your passwords this way.
+         * Kids do not hash your passwords this way.
          */
         $this->password = sha1($password);
 

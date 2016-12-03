@@ -2,16 +2,17 @@
 
 namespace Fnp\Dto\Mapper;
 
-use Fnp\Dto\Common\ToArray;
+use Fnp\Dto\Common\DtoToArray;
 use Fnp\Dto\Flex\DtoModel;
+use Illuminate\Contracts\Support\Arrayable;
 
-class MapperModel extends DtoModel
+class MapperModel extends DtoModel implements Arrayable
 {
-    use ToArray;
+    use DtoToArray;
 
     public function populateItems($items)
     {
-        if ($items instanceof DtoModel) {
+        if ($items instanceof Arrayable) {
             $items = $items->toArray();
         }
 

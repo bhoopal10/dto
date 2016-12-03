@@ -3,17 +3,18 @@
 namespace Fnp\Dto\Flex;
 
 use Fnp\Dto\Collection\DtoCollectionFactory;
-use Fnp\Dto\Common\ToArray;
-use Fnp\Dto\Common\ToJson;
+use Fnp\Dto\Common\DtoToArray;
+use Fnp\Dto\Common\DtoToJson;
 use Fnp\Dto\Contract\DtoModelContract;
 use Fnp\Dto\Exception;
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
 class DtoModel implements DtoModelContract, Jsonable
 {
-    use ToArray, ToJson;
+    use DtoToArray, DtoToJson;
     
     /**
      * Make model with initial data
@@ -56,7 +57,7 @@ class DtoModel implements DtoModelContract, Jsonable
      */
     public function populateItems($items)
     {
-        if ($items instanceof DtoModel) {
+        if ($items instanceof Arrayable) {
             $items = $items->toArray();
         }
 

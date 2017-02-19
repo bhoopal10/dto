@@ -2,7 +2,7 @@
 
 namespace Fnp\Dto\Common;
 
-trait ToJson
+trait DtoToJson
 {
     abstract function toArray();
     

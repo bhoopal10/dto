@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Hashing\BcryptHasher;
-
 class UserDto extends \Fnp\Dto\Basic\DtoModel
 {
     protected $userName;
@@ -93,7 +91,7 @@ class UserDto extends \Fnp\Dto\Basic\DtoModel
     {
         /*
          * Please note this is purely for testing purposes.
-         * Do not hash your passwords this way.
+         * Kids do not hash your passwords this way.
          */
         $this->password = sha1($password);
 

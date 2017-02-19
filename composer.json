@@ -21,6 +21,7 @@
     "phpunit/phpunit": "^5.3",
     "illuminate/database": ">=5.1",
     "fzaninotto/faker": "^1.6",
-    "illuminate/hashing": "^5.3"
+    "illuminate/hashing": "^5.3",
+    "orchestra/testbench": "^3.4"
   }
 }

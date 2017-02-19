@@ -44,9 +44,9 @@ class MapModel
         return $this->properties;
     }
 
-    public function __get($name)
+    public function __get($property)
     {
-        return $this->property($name);
+        return $this->property($property);
     }
 
     public static function has($handle)
@@ -75,7 +75,7 @@ class MapModel
         return $constants;
     }
 
-    private function buildProperties($selected)
+    protected function buildProperties($selected)
     {
         $constants  = self::constants();
         $handles    = array_flip($constants);

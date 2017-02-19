@@ -1471,6 +1471,7 @@
         {
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "2.2.0",
+
             "source": {
                 "type": "git",
                 "url": "https://github.com/tijsverkoyen/CssToInlineStyles.git",

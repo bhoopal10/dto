@@ -1,9 +1,7 @@
 <?php
 
-class UserDto extends \Fnp\Dto\Basic\DtoModel implements IteratorAggregate
+class UserDto extends \Fnp\Dto\Basic\DtoModel
 {
-    use \Fnp\Dto\Common\DtoIteratorAggregate;
-
     protected $userName;
     protected $email;
     protected $name;

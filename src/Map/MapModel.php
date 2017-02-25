@@ -24,14 +24,24 @@ class MapModel
 
     public static function __callStatic($name, $arguments)
     {
-        $constant = strtoupper(Str::snake($name));
+        $constant  = strtoupper(Str::snake($name));
         $constants = self::constants();
 
-        return $constants[$constant];
+        return $constants[ $constant ];
     }
 
     public function property($property)
     {
+        $getter = 'get' . ucfirst($property);
+
+        if (method_exists($this, $getter)) {
+            $properties = $this->$getter();
+
+            if (isset($properties[ $this->selected ])) {
+                $this->properties[ $property ] = $properties[ $this->selected ];
+            }
+        }
+
         if (!isset($this->properties[ $property ])) {
             return NULL;
         }
@@ -70,7 +80,7 @@ class MapModel
     public static function constants()
     {
         $reflection = new \ReflectionClass(get_called_class());
-        $constants = $reflection->getConstants();
+        $constants  = $reflection->getConstants();
 
         return $constants;
     }
@@ -85,8 +95,8 @@ class MapModel
 
         if (method_exists($this, 'getProperties')) {
             $allProperties = $this->getProperties();
-            if (isset($allProperties[$selected])) {
-                $properties = $allProperties[$selected];
+            if (isset($allProperties[ $selected ])) {
+                $properties = $allProperties[ $selected ];
             }
         }
 
@@ -97,7 +107,12 @@ class MapModel
         return $properties;
     }
 
-    public function value()
+    public function handle()
+    {
+        return $this->selected;
+    }
+
+    public function v()
     {
         return $this->selected;
     }

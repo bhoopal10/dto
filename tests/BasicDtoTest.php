@@ -70,7 +70,7 @@ class BasicDtoTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($email, $array['email']);
         $this->assertEquals($name, $array['name']);
     }
-
+  
     /**
      * @param $userName
      * @param $email

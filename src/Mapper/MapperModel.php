@@ -5,6 +5,7 @@ namespace Fnp\Dto\Mapper;
 use Fnp\Dto\Common\DtoToArray;
 use Fnp\Dto\Flex\DtoModel;
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Support\Arr;
 
 class MapperModel extends DtoModel implements Arrayable
 {
@@ -26,9 +27,9 @@ class MapperModel extends DtoModel implements Arrayable
         foreach ($vars as $var) {
             $var       = $var->getName();
             $targetVar = $this->$var;
+            $value = Arr::get($items, $targetVar);
 
-            if (isset($items[ $targetVar ])) {
-                $value  = $items[ $targetVar ];
+            if ($value) {
                 $setter = $this->methodExists('set', $var);
 
                 if ($setter) {

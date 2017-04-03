@@ -23,6 +23,7 @@ class MapperTest extends PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider generateUserData
+     * @test
      */
     public function testMapping($userName, $password)
     {
@@ -39,5 +40,13 @@ class MapperTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals($userName, $destination->userName);
         $this->assertEquals($password, $destination->password);
+    }
+
+    /**
+     * @test
+     */
+    public function testNestedStructures()
+    {
+
     }
 }

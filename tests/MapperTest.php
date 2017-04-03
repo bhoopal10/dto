@@ -3,6 +3,7 @@
 require_once 'mapper/Source.php';
 require_once 'mapper/Mapper.php';
 require_once 'mapper/Destination.php';
+require_once 'mapper/Nested.php';
 
 class MapperTest extends PHPUnit_Framework_TestCase
 {
@@ -47,6 +48,24 @@ class MapperTest extends PHPUnit_Framework_TestCase
      */
     public function testNestedStructures()
     {
+        $structure = [
+            'one'   => 1,
+            'two'   => [
+                'a' => '1',
+                'b' => '2',
+                'c' => [
+                    'x' => 101,
+                    'y' => 202,
+                    'z' => 303,
+                ],
+            ],
+            'three' => 3,
+        ];
 
+        $mapper = Nested::make($structure);
+
+        $this->assertEquals(1, $mapper->getOne());
+        $this->assertEquals('2', $mapper->getTwo());
+        $this->assertEquals(303, $mapper->getThree());
     }
 }

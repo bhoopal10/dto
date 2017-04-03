@@ -1,11 +1,11 @@
 <?php
 
+namespace Fnp\Dto\Test\Dummy\Flex;
+
 use Fnp\Dto\Flex\DtoModel;
 
 class Cars extends DtoModel
 {
-    use \Fnp\Dto\Common\DtoToCollection;
-
     protected $alfaRomeo;
 
     protected $bmw;

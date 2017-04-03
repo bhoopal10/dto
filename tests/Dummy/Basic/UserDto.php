@@ -1,6 +1,10 @@
 <?php
 
-class UserDto extends \Fnp\Dto\Basic\DtoModel
+namespace Fnp\Dto\Test\Dummy\Basic;
+
+use Fnp\Dto\Basic\DtoModel;
+
+class UserDto extends DtoModel
 {
     protected $userName;
     protected $email;

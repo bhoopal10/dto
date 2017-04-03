@@ -1,8 +1,12 @@
 <?php
 
+namespace Fnp\Dto\Test\Dummy\Validation;
+
+use Fnp\Dto\Common\DtoValidate;
+
 class UserDto extends \Fnp\Dto\Flex\DtoModel
 {
-    use \Fnp\Dto\Common\DtoValidate;
+    use DtoValidate;
 
     public $name;
     public $email;

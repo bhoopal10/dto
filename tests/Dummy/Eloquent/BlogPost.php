@@ -1,5 +1,9 @@
 <?php
 
+namespace Fnp\Dto\Test\Dummy\Eloquent;
+
+use Illuminate\Database\Eloquent\Model;
+
 /**
  * Class BlogPost
  *
@@ -8,7 +12,7 @@
  * @property string $article_intro
  * @property string $article_body
  */
-class BlogPost extends Illuminate\Database\Eloquent\Model
+class BlogPost extends Model
 {
 
 }

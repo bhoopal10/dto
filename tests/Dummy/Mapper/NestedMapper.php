@@ -1,6 +1,8 @@
 <?php
 
-class Nested extends \Fnp\Dto\Mapper\MapperModel
+namespace Fnp\Dto\Test\Dummy\Mapper;
+
+class NestedMapper extends \Fnp\Dto\Mapper\MapperModel
 {
     protected $one = 'one';
     protected $two = 'two.b';
@@ -29,6 +31,5 @@ class Nested extends \Fnp\Dto\Mapper\MapperModel
     {
         return $this->three;
     }
-
 
 }

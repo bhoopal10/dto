@@ -1,10 +1,8 @@
 <?php
 
-use Illuminate\Support\Str;
+namespace Fnp\Dto\Test;
 
-require_once 'flex/Cars.php';
-
-class ValidationTest extends PHPUnit_Framework_TestCase
+class ValidationTest extends \PHPUnit_Framework_TestCase
 {
     public function testIt()
     {

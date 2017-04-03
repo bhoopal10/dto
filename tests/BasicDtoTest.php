@@ -1,10 +1,11 @@
 <?php
 
+namespace Fnp\Dto\Test;
+
 use Faker\Factory;
+use Fnp\Dto\Test\Dummy\Basic\UserDto;
 
-require 'basic/UserDto.php';
-
-class BasicDtoTest extends PHPUnit_Framework_TestCase
+class BasicDtoTest extends \PHPUnit_Framework_TestCase
 {
     public function generateUsers()
     {

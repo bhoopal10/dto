@@ -1,10 +1,11 @@
 <?php
 
+namespace Fnp\Dto\Test;
+
+use Fnp\Dto\Test\Dummy\Flex\Cars;
 use Illuminate\Support\Str;
 
-require_once 'flex/Cars.php';
-
-class BasicFunctionalityTest extends PHPUnit_Framework_TestCase
+class BasicFunctionalityTest extends \PHPUnit_Framework_TestCase
 {
     protected $data = [
         'alfa_romeo' => 'Julietta',

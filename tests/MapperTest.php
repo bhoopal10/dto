@@ -1,11 +1,13 @@
 <?php
 
-require_once 'mapper/Source.php';
-require_once 'mapper/Mapper.php';
-require_once 'mapper/Destination.php';
-require_once 'mapper/Nested.php';
+namespace Fnp\Dto\Test;
 
-class MapperTest extends PHPUnit_Framework_TestCase
+use Fnp\Dto\Test\Dummy\Mapper\Destination;
+use Fnp\Dto\Test\Dummy\Mapper\Mapper;
+use Fnp\Dto\Test\Dummy\Mapper\NestedMapper;
+use Fnp\Dto\Test\Dummy\Mapper\Source;
+
+class MapperTest extends \PHPUnit_Framework_TestCase
 {
     public function generateUserData()
     {
@@ -62,7 +64,7 @@ class MapperTest extends PHPUnit_Framework_TestCase
             'three' => 3,
         ];
 
-        $mapper = Nested::make($structure);
+        $mapper = NestedMapper::make($structure);
 
         $this->assertEquals(1, $mapper->getOne());
         $this->assertEquals('2', $mapper->getTwo());

@@ -4,6 +4,7 @@ namespace Fnp\Dto\Common;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Str;
+use ReflectionProperty;
 
 trait DtoToArray
 {
@@ -14,20 +15,24 @@ trait DtoToArray
      */
     public function toArray()
     {
-        $vars = array_keys(
-            get_class_vars(get_called_class())
+        $reflection = new \ReflectionClass($this);
+        $vars       = $reflection->getProperties(
+            ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED
         );
 
         $array = [];
 
         foreach ($vars as $var) {
+
+            $var = $var->getName();
+
             if ($this->$var instanceof Arrayable) {
                 $array[$var] = $this->$var->toArray();
             } else {
-                $getter = $this->methodExists('get', $var);
+                $getter = $this->_methodExists('get', $var);
 
                 if ($getter) {
-                    $array [$var] = $this->$getter();
+                    $array[$var] = $this->$getter();
                 } else {
                     $array[$var] = $this->$var;
                 }
@@ -46,7 +51,7 @@ trait DtoToArray
      *
      * @return null|string
      */
-    private function methodExists($type, $name)
+    private function _methodExists($type, $name)
     {
         $method = $type . ucfirst(Str::camel($name));
 

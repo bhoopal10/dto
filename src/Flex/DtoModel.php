@@ -9,10 +9,11 @@ use Fnp\Dto\Contract\DtoModelContract;
 use Fnp\Dto\Exception;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-class DtoModel implements DtoModelContract, Jsonable
+abstract class DtoModel implements DtoModelContract, Jsonable
 {
     use DtoToArray, DtoToJson;
     
@@ -21,16 +22,12 @@ class DtoModel implements DtoModelContract, Jsonable
      *
      * @param $items
      *
-     * @return $this|Collection
+     * @return $this
      */
     public static function make($items)
     {
-        if ($items instanceof Collection) {
-            return self::collection($items);
-        }
-
         $instance = new static;
-        $instance->populateItems($items);
+        $instance->fill($items);
 
         return $instance;
     }
@@ -55,9 +52,9 @@ class DtoModel implements DtoModelContract, Jsonable
      *
      * @return mixed|void
      */
-    public function populateItems($items)
+    public function fill($items)
     {
-        if ($items instanceof Arrayable) {
+        if (!Arr::accessible($items) && $items instanceof Arrayable) {
             $items = $items->toArray();
         }
 
@@ -70,34 +67,20 @@ class DtoModel implements DtoModelContract, Jsonable
 
         foreach ($vars as $var) {
             $var   = $var->getName();
-            $value = NULL;
-            $found = FALSE;
+            $value = Arr::get($items, $var);
 
-            if (isset($items[$var])) {
-                $value = $items[$var];
-                $found = TRUE;
-            }
-
-            if (!$found) {
+            if (!$value) {
                 $snakeVersion = Str::snake($var);
-
-                if (isset($items[$snakeVersion])) {
-                    $value = $items[$snakeVersion];
-                    $found = TRUE;
-                }
+                $value        = Arr::get($items, $snakeVersion);
             }
 
-            if (!$found) {
+            if (!$value) {
                 $camelVersion = Str::camel($var);
-
-                if (isset($items[$camelVersion])) {
-                    $value = $items[$camelVersion];
-                    $found = TRUE;
-                }
+                $value        = Arr::get($items, $camelVersion);
             }
 
-            if ($found) {
-                $setter = $this->methodExists('set', $var);
+            if ($value) {
+                $setter = $this->_methodExists('set', $var);
 
                 if ($setter) {
                     $this->$setter($value);

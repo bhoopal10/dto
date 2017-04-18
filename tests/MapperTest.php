@@ -12,7 +12,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     public function generateUserData()
     {
         $faker = \Faker\Factory::create();
-        $data = [];
+        $data  = [];
 
         for($i = 0; $i < 50; $i++) {
             $data[] = [
@@ -30,9 +30,9 @@ class MapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testMapping($userName, $password)
     {
-        $source = new Source();
+        $source                   = new Source();
         $source->name_of_the_user = $userName;
-        $source->user_password = $password;
+        $source->user_password    = $password;
 
         $mapper = Mapper::make($source);
 

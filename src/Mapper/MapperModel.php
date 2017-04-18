@@ -11,9 +11,9 @@ class MapperModel extends DtoModel implements Arrayable
 {
     use DtoToArray;
 
-    public function populateItems($items)
+    public function fill($items)
     {
-        if ($items instanceof Arrayable) {
+        if (!Arr::accessible($items) && $items instanceof Arrayable) {
             $items = $items->toArray();
         }
 
@@ -25,12 +25,18 @@ class MapperModel extends DtoModel implements Arrayable
         $vars       = $reflection->getProperties();
 
         foreach ($vars as $var) {
+
             $var       = $var->getName();
             $targetVar = $this->$var;
+
+            if (!$targetVar) {
+                $targetVar = $var;
+            }
+
             $value = Arr::get($items, $targetVar);
 
             if ($value) {
-                $setter = $this->methodExists('set', $var);
+                $setter = $this->_methodExists('set', $var);
 
                 if ($setter) {
                     $this->$setter($value);

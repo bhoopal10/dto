@@ -3,9 +3,12 @@
 namespace Fnp\Dto\Test\Dummy\Basic;
 
 use Fnp\Dto\Basic\DtoModel;
+use Fnp\Dto\Common\DtoArrayAccess;
 
-class UserDto extends DtoModel
+class UserDto extends DtoModel implements \ArrayAccess
 {
+    use DtoArrayAccess;
+
     protected $userName;
     protected $email;
     protected $name;

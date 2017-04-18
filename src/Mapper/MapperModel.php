@@ -30,7 +30,7 @@ class MapperModel extends DtoModel implements Arrayable
             $targetVar = $this->$var;
 
             if (!$targetVar) {
-                $targetVar = $var;
+                continue;
             }
 
             $value = Arr::get($items, $targetVar);

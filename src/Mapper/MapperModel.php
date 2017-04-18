@@ -35,6 +35,10 @@ class MapperModel extends DtoModel implements Arrayable
 
             $value = Arr::get($items, $targetVar);
 
+            if ($targetVar == '.') {
+                $value = $items;
+            }
+
             if ($value) {
                 $setter = $this->_methodExists('set', $var);
 

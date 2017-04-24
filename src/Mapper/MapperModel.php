@@ -43,7 +43,12 @@ class MapperModel extends DtoModel implements Arrayable
                 $setter = $this->_methodExists('set', $var);
 
                 if ($setter) {
-                    $this->$setter($value);
+                    $value = $this->$setter($value);
+
+                    if ($value) {
+                        $this->$var = $value;
+                    }
+
                     continue;
                 }
 

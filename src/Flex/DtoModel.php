@@ -83,7 +83,11 @@ abstract class DtoModel implements DtoModelContract, Jsonable
                 $setter = $this->_methodExists('set', $var);
 
                 if ($setter) {
-                    $this->$setter($value);
+                    $value = $this->$setter($value);
+
+                    if ($value) {
+                        $this->$var = $value;
+                    }
                 } else {
                     $this->$var = $value;
                 }

@@ -29,7 +29,7 @@ class MapperModel extends DtoModel implements Arrayable
             $var       = $var->getName();
             $targetVar = $this->$var;
 
-            if (!$targetVar) {
+            if (is_null($targetVar)) {
                 continue;
             }
 
@@ -46,7 +46,7 @@ class MapperModel extends DtoModel implements Arrayable
 
                     $value = $this->$setter($value);
 
-                    if ($value) {
+                    if (!is_null($value)) {
                         $this->$var = $value;
                     } else {
                         if ($this->$var == $targetVar) {

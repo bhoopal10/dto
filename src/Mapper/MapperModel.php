@@ -33,35 +33,30 @@ class MapperModel extends DtoModel implements Arrayable
                 continue;
             }
 
-            $value = Arr::get($items, $targetVar);
+            $value = Arr::get($items, $targetVar, NULL);
 
             if ($targetVar == '.') {
                 $value = $items;
             }
 
-            if (!is_null($value)) {
-                $setter = $this->_methodExists('set', $var);
+            $setter = $this->_methodExists('set', $var);
 
-                if ($setter) {
+            if ($setter) {
 
-                    $value = $this->$setter($value);
+                $value = $this->$setter($value);
 
-                    if (!is_null($value)) {
-                        $this->$var = $value;
-                    } else {
-                        if ($this->$var == $targetVar) {
-                            $this->$var = NULL;
-                        }
+                if (!is_null($value)) {
+                    $this->$var = $value;
+                } else {
+                    if ($this->$var == $targetVar) {
+                        $this->$var = NULL;
                     }
-
-                    continue;
                 }
 
-                $this->$var = $value;
                 continue;
             }
 
-            $this->$var = NULL;
+            $this->$var = $value;
         }
     }
 }

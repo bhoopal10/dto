@@ -2,8 +2,8 @@
 
 namespace Fnp\Dto\Common;
 
+use Fnp\Dto\Common\Helper\DtoHelper;
 use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\Str;
 use ReflectionProperty;
 
 trait DtoToArray
@@ -22,39 +22,24 @@ trait DtoToArray
 
         $array = [];
 
-        foreach ($vars as $var) {
+        /** @var ReflectionProperty $varRef */
+        foreach ($vars as $varRef) {
 
-            $var = $var->getName();
+            $varName = $varRef->getName();
 
-            if ($this->$var instanceof Arrayable) {
-                $array[$var] = $this->$var->toArray();
+            if ($this->$varName instanceof Arrayable) {
+                $array[$varName] = $this->$varName->toArray();
             } else {
-                $getter = $this->_methodExists('get', $var);
+                $getter = DtoHelper::methodExists($this, 'get', $varName);
 
                 if ($getter) {
-                    $array[$var] = $this->$getter();
+                    $array[$varName] = $this->$getter();
                 } else {
-                    $array[$var] = $this->$var;
+                    $array[$varName] = $this->$varName;
                 }
             }
         }
 
         return $array;
-    }
-
-    /**
-     * Checks if method exists in the current model.
-     * Returns method name if it does or NULL otherwise.
-     *
-     * @param string $type
-     * @param string $name
-     *
-     * @return null|string
-     */
-    private function _methodExists($type, $name)
-    {
-        $method = $type . ucfirst(Str::camel($name));
-
-        return method_exists($this, $method) ? $method : NULL;
     }
 }

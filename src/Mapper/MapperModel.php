@@ -2,6 +2,7 @@
 
 namespace Fnp\Dto\Mapper;
 
+use Fnp\Dto\Common\Helper\DtoHelper;
 use Fnp\Dto\Common\DtoToArray;
 use Fnp\Dto\Flex\DtoModel;
 use Illuminate\Contracts\Support\Arrayable;
@@ -39,7 +40,7 @@ class MapperModel extends DtoModel implements Arrayable
                 $value = $items;
             }
 
-            $setter = $this->_methodExists('set', $var);
+            $setter = DtoHelper::methodExists($this, 'fill', $var);
 
             if ($setter) {
 

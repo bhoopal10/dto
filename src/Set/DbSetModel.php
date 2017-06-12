@@ -1,8 +1,8 @@
 <?php
 
-namespace Fnp\Dto\Map;
+namespace Fnp\Dto\Set;
 
-class DbMapModel extends MapModel
+class DbSetModel extends SetModel
 {
     protected function buildProperties($selected)
     {
@@ -10,5 +10,4 @@ class DbMapModel extends MapModel
         $handles    = array_flip($constants);
         $constant   = $handles[ $selected ];
     }
-
 }

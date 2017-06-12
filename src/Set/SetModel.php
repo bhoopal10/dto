@@ -1,10 +1,10 @@
 <?php
 
-namespace Fnp\Dto\Map;
+namespace Fnp\Dto\Set;
 
 use Illuminate\Support\Str;
 
-class MapModel
+class SetModel
 {
     protected $selected;
     protected $properties;

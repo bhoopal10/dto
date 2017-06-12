@@ -54,6 +54,9 @@ class DtoHelperTest extends \PHPUnit_Framework_TestCase
             'Dot Separated'               => [
                 'set', 'dot.separated.value', NULL, 'setDotSeparatedValue',
             ],
+            'Dash Separated'               => [
+                '', 'dash-separated-value', 'Attribute', 'dashSeparatedValueAttribute',
+            ],
         ];
     }
 

@@ -24,6 +24,15 @@ class DtoHelper
         return method_exists($object, $method) ? $method : NULL;
     }
 
+    /**
+     * Builds a method name based on prefix, name and suffix
+     *
+     * @param null $prefix
+     * @param      $name
+     * @param null $suffix
+     *
+     * @return string
+     */
     public static function methodName($prefix = NULL, $name, $suffix = NULL)
     {
         $name = str_replace([' ', '-', '.'], '_', $name);

@@ -1,9 +1,9 @@
 <?php
 
-namespace Fnp\Dto\Test\BasicDto;
+namespace Fnp\Dto\Test\Basic;
 
 use Faker\Factory;
-use Fnp\Dto\Test\BasicDto\Dto\UserData;
+use Fnp\Dto\Test\Basic\Dto\UserData;
 use Illuminate\Support\Arr;
 
 class BasicDtoTest extends \PHPUnit_Framework_TestCase

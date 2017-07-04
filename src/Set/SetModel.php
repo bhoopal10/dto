@@ -2,6 +2,7 @@
 
 namespace Fnp\Dto\Set;
 
+use Fnp\Dto\Common\Helper\DtoHelper;
 use Illuminate\Support\Str;
 
 class SetModel
@@ -80,7 +81,7 @@ class SetModel
         $constants  = self::constants();
         $handles    = array_flip($constants);
         $constant   = $handles[ $selected ];
-        $getter     = 'get' . ucfirst(Str::camel($constant)) . 'Properties';
+        $getter     = DtoHelper::methodName('get', $constant, 'Properties');
         $properties = [];
 
         if (method_exists($this, 'getProperties')) {

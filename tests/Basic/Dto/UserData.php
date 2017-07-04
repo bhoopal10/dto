@@ -1,6 +1,6 @@
 <?php
 
-namespace Fnp\Dto\Test\BasicDto\Dto;
+namespace Fnp\Dto\Test\Basic\Dto;
 
 use Fnp\Dto\Basic\DtoModel;
 

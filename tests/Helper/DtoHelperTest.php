@@ -36,6 +36,9 @@ class DtoHelperTest extends \PHPUnit_Framework_TestCase
             'Upper Case without Prefix'   => [
                 '', 'POST_CODE', 'value', 'postCodeValue',
             ],
+            'Upper Case with Prefix'   => [
+                'get', 'POST_CODE', 'value', 'getPostCodeValue',
+            ],
             'Upper Case one Word'         => [
                 'get', 'VALUES', NULL, 'getValues',
             ],

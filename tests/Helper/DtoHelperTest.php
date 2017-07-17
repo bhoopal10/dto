@@ -63,6 +63,52 @@ class DtoHelperTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
+    public function generateCamel()
+    {
+        return [
+            ['username', 'username'],
+            ['user_name', 'userName'],
+            ['USER_NAME', 'userName'],
+            ['USER-NAME', 'userName'],
+            ['userName', 'userName'],
+            ['userName2', 'userName2'],
+            ['address_line_1', 'addressLine1'],
+            ['address_line_2', 'addressLine2'],
+            ['addressLine_1', 'addressLine1'],
+            ['address_line2', 'addressLine2'],
+            ['help_line_911', 'helpLine911'],
+            ['help_line911', 'helpLine911'],
+        ];
+    }
+
+    public function generateSnake()
+    {
+        return [
+            ['username', 'username'],
+            ['user_name', 'user_name'],
+            ['USER_NAME', 'user_name'],
+            ['userName', 'user_name'],
+            ['address_line_1', 'address_line_1'],
+            ['address_line_2', 'address_line_2'],
+            ['addressLine_1', 'address_line_1'],
+            ['address_line2', 'address_line_2'],
+            ['helpLine911', 'help_line_911'],
+            ['HELP_LINE911', 'help_line_911'],
+            ['helpLine911', 'help_line_911'],
+        ];
+    }
+
+    public function generateAllCaps()
+    {
+        return [
+            ['THISisATEST', FALSE],
+            ['THISISATEST', TRUE],
+            ['this_is_a_TEST', FALSE],
+            ['THIS_IS_A-TEST', TRUE],
+            ['THIS.IS!A!$TEST', TRUE],
+        ];
+    }
+
     /**
      * @test
      *
@@ -76,5 +122,44 @@ class DtoHelperTest extends \PHPUnit_Framework_TestCase
     public function testMethodNames($prefix, $name, $suffix, $methodName)
     {
         $this->assertEquals($methodName, DtoHelper::methodName($prefix, $name, $suffix));
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider generateAllCaps
+     *
+     * @param $value
+     * @param $isAllCaps
+     */
+    public function testAllCaps($value, $isAllCaps)
+    {
+        $this->assertEquals($isAllCaps, DtoHelper::isAllCaps($value));
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider generateCamel
+     *
+     * @param $input
+     * @param $output
+     */
+    public function testCamel($input, $output)
+    {
+        $this->assertEquals($output, DtoHelper::camel($input));
+    }
+
+    /**
+     * @test
+     *
+     * @dataProvider generateSnake
+     *
+     * @param $input
+     * @param $output
+     */
+    public function testSnake($input, $output)
+    {
+        $this->assertEquals($output, DtoHelper::snake($input));
     }
 }

@@ -34,12 +34,12 @@ trait DtoFill
             $value = Arr::get($items, $var);
 
             if (!$value) {
-                $snakeVersion = Str::snake($var);
+                $snakeVersion = DtoHelper::snake($var);
                 $value        = Arr::get($items, $snakeVersion);
             }
 
             if (!$value) {
-                $camelVersion = Str::camel($var);
+                $camelVersion = DtoHelper::camel($var);
                 $value        = Arr::get($items, $camelVersion);
             }
 

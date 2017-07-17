@@ -37,7 +37,7 @@ class DtoHelper
     {
         $name = str_replace([' ', '-', '.'], '_', $name);
 
-        if (Str::contains($name, '_') || strtoupper($name) == $name) {
+        if (Str::contains($name, '_') || self::isAllCaps($name)) {
             $name = strtolower($name);
         }
 
@@ -57,5 +57,38 @@ class DtoHelper
         $method = $elPrefix . $elName . $elSuffix;
 
         return $method;
+    }
+
+    public static function camel($value)
+    {
+        $camel = str_replace([' ', '-', '.'], '_', $value);
+
+        if (strpos($camel, '_') && self::isAllCaps($camel)) {
+            $camel = strtolower($camel);
+        }
+
+        $camel = Str::camel($camel);
+
+        return $camel;
+    }
+
+    public static function snake($value)
+    {
+        $snake = str_replace([' ', '-', '.'], '_', $value);
+        $snake = preg_replace('/(\d.*)/', '_$1', $snake);
+        $snake = str_replace('__', '_', $snake);
+
+        if (strpos($snake, '_') && self::isAllCaps($snake)) {
+            $snake = strtolower($snake);
+        }
+
+        $snake = Str::snake($snake);
+
+        return $snake;
+    }
+
+    public static function isAllCaps($value)
+    {
+        return strtoupper($value) == $value;
     }
 }

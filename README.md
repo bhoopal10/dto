@@ -12,6 +12,11 @@
 php composer require framespictures/dto
 ```
 
+## Note
+
+    PLEASE NOTE THIS PROJECT IS WORK IN PROGRESS! API MAY CHANGE WITHOUT WARNING!
+    IF YOU WANT TO INCORPORATE IT INTO YOUR PROJECT PLEASE STICK TO ONE PARTICULAR VERSION.
+
 ## Data Transfer Object Theory
 
 A Data Transfer Object is an object that is used to encapsulate data, and send it from one subsystem of an application to another. DTOs are most commonly used by the Services layer in an N-Tier application to transfer data between itself and the UI layer. The main benefit here is that it reduces the amount of data that needs to be sent across the wire in distributed applications. They also make great models in the MVC pattern.
@@ -34,6 +39,8 @@ Using it in Repository Pattern in conjunction with Eloquent, allows for true log
 
 ### Data Transformation, Cleanup and Chaining
 
+### Code Driven Sets
+
 ## Classes
 
 ### Basic DTO
@@ -41,3 +48,13 @@ Using it in Repository Pattern in conjunction with Eloquent, allows for true log
 ### Flexible DTO
 
 ### Mapper
+
+#### Basic functionality
+
+#### Multi level mapping
+
+#### Advanced mapping
+
+### Set Model
+
+#### Database Set

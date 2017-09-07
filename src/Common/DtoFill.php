@@ -13,8 +13,6 @@ trait DtoFill
      * Populate items
      *
      * @param array $items
-     *
-     * @return mixed|void
      */
     public function fill($items)
     {

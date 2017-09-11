@@ -53,14 +53,14 @@ trait DtoMapperFill
                     $variable->setValue($this, $value);
                 } else {
                     if ($variable->getValue($this) == $targetVar) {
-                        $this->$var = NULL;
+                        $variable->setValue($this, NULL);
                     }
                 }
 
                 continue;
             }
 
-            $this->$var = $value;
+            $variable->setValue($this, $value);
         }
     }
 }

@@ -26,10 +26,12 @@ trait DtoMapperFill
         $reflection = new \ReflectionClass($this);
         $vars       = $reflection->getProperties();
 
-        foreach ($vars as $var) {
+        /** @var \ReflectionProperty $var */
+        foreach ($vars as $variable) {
 
-            $var       = $var->getName();
-            $targetVar = $this->$var;
+            $variable->setAccessible(TRUE);
+            $targetVar = $variable->getValue($this);
+            $var       = $variable->getName();
 
             if (is_null($targetVar)) {
                 continue;
@@ -48,9 +50,9 @@ trait DtoMapperFill
                 $value = $this->$setter($value);
 
                 if (!is_null($value)) {
-                    $this->$var = $value;
+                    $variable->setValue($this, $value);
                 } else {
-                    if ($this->$var == $targetVar) {
+                    if ($variable->getValue($this) == $targetVar) {
                         $this->$var = NULL;
                     }
                 }

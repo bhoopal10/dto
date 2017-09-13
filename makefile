@@ -1,3 +1,5 @@
+all: vendor test
+
 vendor:
 	docker run --rm -v $(shell pwd):/app library/composer install
 

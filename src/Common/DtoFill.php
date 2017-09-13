@@ -31,23 +31,23 @@ trait DtoFill
             $var   = $var->getName();
             $value = Arr::get($items, $var);
 
-            if (!$value) {
+            if (is_null($value)) {
                 $snakeVersion = DtoHelper::snake($var);
                 $value        = Arr::get($items, $snakeVersion);
             }
 
-            if (!$value) {
+            if (is_null($value)) {
                 $camelVersion = DtoHelper::camel($var);
                 $value        = Arr::get($items, $camelVersion);
             }
 
-            if ($value) {
+            if (!is_null($value)) {
                 $setter = DtoHelper::methodExists($this, 'fill', $var);
 
                 if ($setter) {
                     $value = $this->$setter($value);
 
-                    if ($value) {
+                    if (!is_null($value)) {
                         $this->$var = $value;
                     }
                 } else {

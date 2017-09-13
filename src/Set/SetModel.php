@@ -68,6 +68,11 @@ class SetModel
         return $constants;
     }
 
+    /**
+     * @param $pluckValue
+     *
+     * @return \Generator|array
+     */
     public static function pluck($pluckValue)
     {
         /** @var SetModel $map */

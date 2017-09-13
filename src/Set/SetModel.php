@@ -70,8 +70,9 @@ class SetModel
 
     public static function pluck($pluckValue)
     {
-        foreach(self::all() as $const=>$map) {
-            yield $map::$const => $map->property($pluckValue);
+        /** @var SetModel $map */
+        foreach (static::all() as $map) {
+            yield $map->value() => $map->property($pluckValue);
         }
     }
 

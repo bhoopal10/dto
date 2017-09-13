@@ -25,10 +25,10 @@ class SetModel
 
     public static function __callStatic($name, $arguments)
     {
-        $constant = strtoupper(Str::snake($name));
+        $constant  = strtoupper(Str::snake($name));
         $constants = self::constants();
 
-        return $constants[$constant];
+        return $constants[ $constant ];
     }
 
     public function property($property)
@@ -68,10 +68,21 @@ class SetModel
         return $constants;
     }
 
+    public static function pluck($pluckKey, $pluckValue)
+    {
+        $all = self::all();
+
+        $all = array_map(function ($value) use($pluckValue)  {
+            return $value->property($pluckValue);
+        }, $all);
+
+        return $all;
+    }
+
     public static function constants()
     {
         $reflection = new \ReflectionClass(get_called_class());
-        $constants = $reflection->getConstants();
+        $constants  = $reflection->getConstants();
 
         return $constants;
     }
@@ -86,8 +97,8 @@ class SetModel
 
         if (method_exists($this, 'getProperties')) {
             $allProperties = $this->getProperties();
-            if (isset($allProperties[$selected])) {
-                $properties = $allProperties[$selected];
+            if (isset($allProperties[ $selected ])) {
+                $properties = $allProperties[ $selected ];
             }
         }
 

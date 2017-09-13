@@ -68,7 +68,7 @@ class SetModel
         return $constants;
     }
 
-    public static function pluck($pluckKey, $pluckValue)
+    public static function pluck($pluckValue)
     {
         $all = self::all();
 

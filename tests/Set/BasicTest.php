@@ -1,6 +1,7 @@
 <?php
 
 use Fnp\Dto\Set\SetModel;
+use Illuminate\Support\Str;
 
 class BasicTest extends PHPUnit_Framework_TestCase
 {
@@ -70,6 +71,27 @@ class BasicTest extends PHPUnit_Framework_TestCase
             $this->assertArrayHasKey($name, $pluck);
             $this->assertEquals($digit, $pluck[ $name ]);
         }
+    }
+
+    /**
+     * @param $handle
+     *
+     * @dataProvider provideTestData
+     */
+    public function testHas($handle)
+    {
+        $this->assertTrue(BasicDigitSet::has($handle), 'Handle ' . $handle . ' should exist but it doesn\'t!');
+        $this->assertFalse(BasicDigitSet::has(Str::random(10)));
+    }
+
+    /**
+     * @param $handle
+     *
+     * @dataProvider provideTestData
+     */
+    public function testHandle($handle)
+    {
+        $this->assertEquals($handle, BasicDigitSet::make($handle)->handle());
     }
 }
 

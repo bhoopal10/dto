@@ -3,51 +3,22 @@
 namespace Fnp\Dto\Set;
 
 use Fnp\Dto\Common\Helper\DtoHelper;
-use Illuminate\Support\Str;
 
 class SetModel
 {
-    protected $selected;
-    protected $properties;
+    protected $_handle;
 
-    public static function make($selected)
+    public static function make($handle)
     {
-        $object = new static($selected);
+        $object = new static($handle);
 
         return $object;
     }
 
-    public function __construct($selected)
+    public function __construct($handle)
     {
-        $this->selected   = $selected;
-        $this->properties = $this->buildProperties($selected);
-    }
-
-    public static function __callStatic($name, $arguments)
-    {
-        $constant  = strtoupper(Str::snake($name));
-        $constants = self::constants();
-
-        return $constants[ $constant ];
-    }
-
-    public function property($property)
-    {
-        if (!isset($this->properties[ $property ])) {
-            return NULL;
-        }
-
-        return $this->properties[ $property ];
-    }
-
-    public function properties()
-    {
-        return $this->properties;
-    }
-
-    public function __get($property)
-    {
-        return $this->property($property);
+        $this->_handle = $handle;
+        $this->build($handle);
     }
 
     public static function has($handle)
@@ -73,46 +44,45 @@ class SetModel
      *
      * @return \Generator|array
      */
-    public static function pluck($pluckValue)
+    public static function pluck($pluckValue, $pluckKey = NULL)
     {
+        $pluck = [];
+
         /** @var SetModel $map */
         foreach (static::all() as $map) {
-            yield $map->value() => $map->property($pluckValue);
+
+            $key = $map->handle();
+
+            if ($pluckKey) {
+                $key = $map->$pluckKey;
+            }
+
+            $pluck[ $key ] = $map->$pluckValue;
         }
+
+        return $pluck;
     }
 
     public static function constants()
     {
         $reflection = new \ReflectionClass(get_called_class());
-        $constants  = $reflection->getConstants();
+
+        $constants = $reflection->getConstants();
 
         return $constants;
     }
 
-    protected function buildProperties($selected)
+    protected function build($handle)
     {
-        $constants  = self::constants();
-        $handles    = array_flip($constants);
-        $constant   = $handles[ $selected ];
-        $getter     = DtoHelper::methodName('get', $constant, 'Properties');
-        $properties = [];
+        $method = DtoHelper::methodName('set', $handle);
 
-        if (method_exists($this, 'getProperties')) {
-            $allProperties = $this->getProperties();
-            if (isset($allProperties[ $selected ])) {
-                $properties = $allProperties[ $selected ];
-            }
+        if (method_exists($this, $method)) {
+            $this->$method();
         }
-
-        if (method_exists($this, $getter)) {
-            $properties = $this->$getter();
-        }
-
-        return $properties;
     }
 
-    public function value()
+    public function handle()
     {
-        return $this->selected;
+        return $this->_handle;
     }
 }

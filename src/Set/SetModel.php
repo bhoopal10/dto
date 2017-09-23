@@ -74,7 +74,9 @@ class SetModel
 
     protected function build($handle)
     {
-        $method = DtoHelper::methodName('set', $handle);
+        $contants = self::constants();
+        $handles = array_flip($contants);
+        $method = DtoHelper::methodName('set', $handles[$handle]);
 
         if (method_exists($this, $method)) {
             $this->$method();

@@ -28,6 +28,11 @@ class BasicTest extends PHPUnit_Framework_TestCase
                 NULL,
                 NULL,
             ],
+            [
+                BasicDigitSet::TWENTY_TWO,
+                'The Twenty Two',
+                22,
+            ],
         ];
     }
 
@@ -97,10 +102,11 @@ class BasicTest extends PHPUnit_Framework_TestCase
 
 class BasicDigitSet extends SetModel
 {
-    const ONE   = 'one';
-    const TWO   = 'two';
-    const THREE = 'three';
-    const FOUR  = 'four';
+    const ONE        = 'one';
+    const TWO        = 'two';
+    const THREE      = 'three';
+    const FOUR       = 'four';
+    const TWENTY_TWO = 'theTwentyTwo';
 
     public $name;
     public $digit;
@@ -121,6 +127,12 @@ class BasicDigitSet extends SetModel
     {
         $this->name  = 'Three';
         $this->digit = 3;
+    }
+
+    public function setTwentyTwo()
+    {
+        $this->name  = 'The Twenty Two';
+        $this->digit = 22;
     }
 
 }

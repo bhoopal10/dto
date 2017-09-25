@@ -3,7 +3,7 @@
 use Fnp\Dto\Set\SetModel;
 use Illuminate\Support\Str;
 
-class BasicTest extends PHPUnit_Framework_TestCase
+class SetModelTest extends PHPUnit_Framework_TestCase
 {
     public function provideTestData()
     {

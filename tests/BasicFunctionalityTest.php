@@ -1,8 +1,6 @@
 <?php
 
-namespace Fnp\Dto\Test;
-
-use Fnp\Dto\Test\Dummy\Flex\Cars;
+use Fnp\Dto\Flex\DtoModel;
 use Illuminate\Support\Str;
 
 class BasicFunctionalityTest extends \PHPUnit_Framework_TestCase
@@ -16,7 +14,7 @@ class BasicFunctionalityTest extends \PHPUnit_Framework_TestCase
         'tesla'      => 's',
         'volvo'      => 'V90',
     ];
-    
+
     public function testArrayApply()
     {
         $cars = Cars::make($this->data);
@@ -26,12 +24,13 @@ class BasicFunctionalityTest extends \PHPUnit_Framework_TestCase
         foreach ($this->data as $key => $value) {
             $this->assertEquals($value, $cars->toArray()[ Str::camel($key) ]);
         }
-        
+
         return $cars;
     }
 
     /**
      * @param $cars
+     *
      * @depends testArrayApply
      */
     public function testDtoApply($cars)
@@ -44,4 +43,21 @@ class BasicFunctionalityTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($value, $model->toArray()[ Str::camel($key) ]);
         }
     }
+}
+
+class Cars extends DtoModel
+{
+    protected $alfaRomeo;
+
+    protected $bmw;
+
+    protected $citroen;
+
+    protected $jaguar;
+
+    protected $saab;
+
+    protected $tesla;
+
+    protected $volvo;
 }

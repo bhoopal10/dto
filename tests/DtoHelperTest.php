@@ -1,12 +1,10 @@
 <?php
 
-namespace Fnp\Dto\Test\Helper;
-
 use Fnp\Dto\Common\Helper\DtoHelper;
 
 class DtoHelperTest extends \PHPUnit_Framework_TestCase
 {
-    public function generateMethodNames()
+    public function provideMethodNamesTestData()
     {
         return [
             'All Lower Case'              => [
@@ -63,7 +61,7 @@ class DtoHelperTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function generateCamel()
+    public function provideCamelTestData()
     {
         return [
             ['username', 'username'],
@@ -81,7 +79,7 @@ class DtoHelperTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function generateSnake()
+    public function provideSnakeTestData()
     {
         return [
             ['username', 'username'],
@@ -98,7 +96,7 @@ class DtoHelperTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function generateAllCaps()
+    public function provideAllCapsTestData()
     {
         return [
             ['THISisATEST', FALSE],
@@ -117,7 +115,7 @@ class DtoHelperTest extends \PHPUnit_Framework_TestCase
      * @param $suffix
      * @param $methodName
      *
-     * @dataProvider generateMethodNames
+     * @dataProvider provideMethodNamesTestData
      */
     public function testMethodNames($prefix, $name, $suffix, $methodName)
     {
@@ -127,7 +125,7 @@ class DtoHelperTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @dataProvider generateAllCaps
+     * @dataProvider provideAllCapsTestData
      *
      * @param $value
      * @param $isAllCaps
@@ -140,7 +138,7 @@ class DtoHelperTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @dataProvider generateCamel
+     * @dataProvider provideCamelTestData
      *
      * @param $input
      * @param $output
@@ -153,7 +151,7 @@ class DtoHelperTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      *
-     * @dataProvider generateSnake
+     * @dataProvider provideSnakeTestData
      *
      * @param $input
      * @param $output

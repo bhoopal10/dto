@@ -17,11 +17,6 @@
       "Fnp\\Dto\\": "src/"
     }
   },
-  "autoload-dev": {
-    "psr-4": {
-      "Fnp\\Dto\\Test\\": "tests/"
-    }
-  },
   "require-dev": {
     "phpunit/phpunit": "^5.3",
     "illuminate/database": ">=5.1",

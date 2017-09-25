@@ -1,11 +1,7 @@
 <?php
 
-namespace Fnp\Dto\Test;
-
-use Fnp\Dto\Test\Dummy\Mapper\Destination;
-use Fnp\Dto\Test\Dummy\Mapper\Mapper;
-use Fnp\Dto\Test\Dummy\Mapper\NestedMapper;
-use Fnp\Dto\Test\Dummy\Mapper\Source;
+use Fnp\Dto\Flex\DtoModel;
+use Fnp\Dto\Mapper\MapperModel;
 
 class MapperTest extends \PHPUnit_Framework_TestCase
 {
@@ -70,4 +66,53 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('2', $mapper->getTwo());
         $this->assertEquals(303, $mapper->getThree());
     }
+}
+
+class Mapper extends MapperModel
+{
+    public $userName = 'name_of_the_user';
+    public $password = 'user_password';
+}
+
+class Destination extends DtoModel
+{
+    public $userName;
+    public $password;
+}
+
+class NestedMapper extends \Fnp\Dto\Mapper\MapperModel
+{
+    protected $one = 'one';
+    protected $two = 'two.b';
+    protected $three = 'two.c.z';
+
+    /**
+     * @return string
+     */
+    public function getOne()
+    {
+        return $this->one;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTwo()
+    {
+        return $this->two;
+    }
+
+    /**
+     * @return string
+     */
+    public function getThree()
+    {
+        return $this->three;
+    }
+}
+
+class Source extends DtoModel
+{
+    public $name_of_the_user;
+    public $user_password;
 }

@@ -1,11 +1,9 @@
 <?php
 
-namespace Fnp\Dto\Test\Mapper;
+use Fnp\Dto\Flex\DtoModel;
+use Fnp\Dto\Mapper\MapperModel;
 
-use Fnp\Dto\Test\Flex\Data\Post;
-use Fnp\Dto\Test\Mapper\Data\PostApi;
-
-class PostApiTest extends \PHPUnit_Framework_TestCase
+class MapperModelPostApiTest extends \PHPUnit_Framework_TestCase
 {
     public function generateData()
     {
@@ -47,4 +45,33 @@ class PostApiTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($output, $postApi->toArray());
     }
+
+
+}
+
+class Author extends DtoModel
+{
+    public $name;
+    public $email;
+}
+
+class Post extends DtoModel
+{
+    public $title;
+    public $body;
+    public $author;
+
+    public function fillAuthor($author)
+    {
+        return Author::make($author);
+    }
+}
+
+
+class PostApi extends MapperModel
+{
+    public $header      = 'title';
+    public $body        = 'body';
+    public $authorName  = 'author.name';
+    public $authorEmail = 'author.email';
 }

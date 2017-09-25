@@ -31,7 +31,7 @@ class BasicTest extends PHPUnit_Framework_TestCase
             [
                 BasicDigitSet::TWENTY_TWO,
                 'The Twenty Two',
-                22,
+                222,
             ],
         ];
     }
@@ -133,6 +133,13 @@ class BasicDigitSet extends SetModel
     {
         $this->name  = 'The Twenty Two';
         $this->digit = 22;
+    }
+
+    public function getDigit()
+    {
+        return [
+            self::TWENTY_TWO => 222,
+        ];
     }
 
 }

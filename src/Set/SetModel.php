@@ -74,12 +74,30 @@ class SetModel
 
     protected function build($handle)
     {
-        $contants = self::constants();
-        $handles = array_flip($contants);
-        $method = DtoHelper::methodName('set', $handles[$handle]);
+        $constants = self::constants();
+        $handles   = array_flip($constants);
+        $method    = DtoHelper::methodName('set', $handles[ $handle ]);
 
         if (method_exists($this, $method)) {
             $this->$method();
+        }
+
+        $reflection = new \ReflectionClass($this);
+        $variables  = $reflection->getProperties();
+
+        foreach ($variables as $variable) {
+            $varName = $variable->getName();
+            $method  = DtoHelper::methodName('get', $varName);
+
+            if (!method_exists($this, $method))
+                continue;
+
+            $values = $this->$method();
+
+            if (!isset($values[ $handle ]))
+                continue;
+
+            $this->$varName = $values[ $handle ];
         }
     }
 

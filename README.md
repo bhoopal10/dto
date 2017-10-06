@@ -58,3 +58,7 @@ Using it in Repository Pattern in conjunction with Eloquent, allows for true log
 ### Set Model
 
 #### Database Set
+
+### Config Models
+
+#### Laravel Config

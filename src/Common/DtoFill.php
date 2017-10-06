@@ -5,7 +5,6 @@ namespace Fnp\Dto\Common;
 use Fnp\Dto\Common\Helper\DtoHelper;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 trait DtoFill
 {
@@ -27,31 +26,34 @@ trait DtoFill
         $reflection = new \ReflectionClass($this);
         $vars       = $reflection->getProperties();
 
-        foreach ($vars as $var) {
-            $var   = $var->getName();
-            $value = Arr::get($items, $var);
+        foreach ($vars as $variable) {
 
-            if (is_null($value)) {
-                $snakeVersion = DtoHelper::snake($var);
-                $value        = Arr::get($items, $snakeVersion);
+            $variable->setAccessible(TRUE);
+
+            $varName  = $variable->getName();
+            $varValue = Arr::get($items, $varName);
+
+            if (is_null($varValue)) {
+                $snakeVersion = DtoHelper::snake($varName);
+                $varValue     = Arr::get($items, $snakeVersion);
             }
 
-            if (is_null($value)) {
-                $camelVersion = DtoHelper::camel($var);
-                $value        = Arr::get($items, $camelVersion);
+            if (is_null($varValue)) {
+                $camelVersion = DtoHelper::camel($varName);
+                $varValue     = Arr::get($items, $camelVersion);
             }
 
-            if (!is_null($value)) {
-                $setter = DtoHelper::methodExists($this, 'fill', $var);
+            if (!is_null($varValue)) {
+                $setter = DtoHelper::methodExists($this, 'fill', $varName);
 
                 if ($setter) {
-                    $value = $this->$setter($value);
+                    $varValue = $this->$setter($varValue);
 
-                    if (!is_null($value)) {
-                        $this->$var = $value;
+                    if (!is_null($varValue)) {
+                        $variable->setValue($this, $varValue);
                     }
                 } else {
-                    $this->$var = $value;
+                    $variable->setValue($this, $varValue);
                 }
             }
         }

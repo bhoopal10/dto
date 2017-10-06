@@ -1,3 +1,4 @@
 /.idea
 /vendor
 /tests export-ignore
+composer.lock

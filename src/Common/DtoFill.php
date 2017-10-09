@@ -15,6 +15,10 @@ trait DtoFill
      */
     public function fill($items)
     {
+        if (is_null($items)) {
+            return;
+        }
+
         if (!Arr::accessible($items) && $items instanceof Arrayable) {
             $items = $items->toArray();
         }

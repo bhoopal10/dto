@@ -24,7 +24,7 @@ abstract class DtoModel implements DtoModelContract, Jsonable
      *
      * @return $this
      */
-    public static function make($items)
+    public static function make($items = NULL)
     {
         $instance = new static;
 

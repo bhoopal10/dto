@@ -63,3 +63,5 @@ Using it in Repository Pattern in conjunction with Eloquent, allows for true log
 ### Config Models
 
 #### Laravel Config
+
+### Class Maps

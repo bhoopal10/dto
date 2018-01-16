@@ -63,7 +63,7 @@ class DtoHelper
     {
         $camel = str_replace([' ', '-', '.'], '_', $value);
 
-        if (strpos($camel, '_') && self::isAllCaps($camel)) {
+        if (self::isAllCaps($camel)) {
             $camel = strtolower($camel);
         }
 
@@ -78,7 +78,7 @@ class DtoHelper
         $snake = preg_replace('/(\d.*)/', '_$1', $snake);
         $snake = str_replace('__', '_', $snake);
 
-        if (strpos($snake, '_') && self::isAllCaps($snake)) {
+        if (self::isAllCaps($snake)) {
             $snake = strtolower($snake);
         }
 

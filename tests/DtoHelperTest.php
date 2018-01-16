@@ -34,7 +34,7 @@ class DtoHelperTest extends \PHPUnit_Framework_TestCase
             'Upper Case without Prefix'   => [
                 '', 'POST_CODE', 'value', 'postCodeValue',
             ],
-            'Upper Case with Prefix'   => [
+            'Upper Case with Prefix'      => [
                 'get', 'POST_CODE', 'value', 'getPostCodeValue',
             ],
             'Upper Case one Word'         => [
@@ -55,7 +55,7 @@ class DtoHelperTest extends \PHPUnit_Framework_TestCase
             'Dot Separated'               => [
                 'set', 'dot.separated.value', NULL, 'setDotSeparatedValue',
             ],
-            'Dash Separated'               => [
+            'Dash Separated'              => [
                 '', 'dash-separated-value', 'Attribute', 'dashSeparatedValueAttribute',
             ],
         ];
@@ -76,6 +76,8 @@ class DtoHelperTest extends \PHPUnit_Framework_TestCase
             ['address_line2', 'addressLine2'],
             ['help_line_911', 'helpLine911'],
             ['help_line911', 'helpLine911'],
+            ['TECHNOLOGY_ALL', 'technologyAll'],
+            ['TECHNOLOGY', 'technology'],
         ];
     }
 
@@ -93,6 +95,8 @@ class DtoHelperTest extends \PHPUnit_Framework_TestCase
             ['helpLine911', 'help_line_911'],
             ['HELP_LINE911', 'help_line_911'],
             ['helpLine911', 'help_line_911'],
+            ['TECHNOLOGY_ALL', 'technology_all'],
+            ['TECHNOLOGY', 'technology'],
         ];
     }
 

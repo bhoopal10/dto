@@ -1,6 +1,6 @@
 <?php
 
-use Fnp\Dto\ClassMap\ClassMap;
+use Fnp\Dto\Mapper\ClassMap;
 
 class ClassMapTest extends PHPUnit_Framework_TestCase
 {

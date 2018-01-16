@@ -1,6 +1,6 @@
 <?php
 
-namespace Fnp\Dto\ClassMap;
+namespace Fnp\Dto\Mapper;
 
 use Fnp\Dto\Common\Helper\DtoHelper;
 
@@ -30,19 +30,19 @@ class ClassMap
         return in_array($handle, self::handles());
     }
 
-    public static function getHandle($class)
+    public static function getHandle($class, $default = NULL)
     {
         $match = self::constants();
         $match = array_flip($match);
 
         if (!isset($match[ $class ])) {
-            return NULL;
+            return $default;
         }
 
         return static::generateHandle($match[ $class ]);
     }
 
-    public static function getClass($handle)
+    public static function getClass($handle, $default = NULL)
     {
         $match = self::constants();
 
@@ -52,7 +52,7 @@ class ClassMap
             }
         }
 
-        return NULL;
+        return $default;
     }
 
     protected static function generateHandle($string)

@@ -101,6 +101,11 @@ class SetModel
         }
     }
 
+    public function is($handle)
+    {
+        return $this->_handle == $handle;
+    }
+
     public function handle()
     {
         return $this->_handle;

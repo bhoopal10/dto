@@ -4,7 +4,7 @@ namespace Fnp\Dto\Common;
 
 trait DtoToJson
 {
-    abstract function toArray();
+    abstract function toArray($follow = TRUE);
     
     /**
      * @inheritdoc

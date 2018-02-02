@@ -9,11 +9,11 @@ use ReflectionProperty;
 trait DtoToArray
 {
     /**
-     * @inheritdoc
+     * @param boolean $follow Should we convert the objects to array?
      *
      * @return array
      */
-    public function toArray()
+    public function toArray($follow = TRUE)
     {
         $reflection = new \ReflectionClass($this);
         $vars       = $reflection->getProperties(
@@ -27,7 +27,7 @@ trait DtoToArray
 
             $varName = $varRef->getName();
 
-            if ($this->$varName instanceof Arrayable) {
+            if ($this->$varName instanceof Arrayable && $follow) {
                 $array[$varName] = $this->$varName->toArray();
             } else {
                 $getter = DtoHelper::methodExists($this, 'get', $varName);

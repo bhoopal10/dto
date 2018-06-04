@@ -2,10 +2,27 @@
 
 namespace Fnp\Dto\Common\Helper;
 
-use Illuminate\Support\Str;
-
 class DtoHelper
 {
+    /**
+     * The cache of snake-cased words.
+     *
+     * @var array
+     */
+    protected static $snakeCache = [];
+    /**
+     * The cache of camel-cased words.
+     *
+     * @var array
+     */
+    protected static $camelCache = [];
+    /**
+     * The cache of studly-cased words.
+     *
+     * @var array
+     */
+    protected static $studlyCache = [];
+
     /**
      * Checks if method exists in the current model.
      * Returns method name if it does or NULL otherwise.
@@ -17,9 +34,9 @@ class DtoHelper
      *
      * @return null|string
      */
-    public static function methodExists($object, $prefix = NULL, $name, $suffix = NULL)
+    public static function methodExists($object, $prefix, $name, $suffix = NULL)
     {
-        $method = self::methodName($prefix, $name, $suffix);
+        $method = static::methodName($prefix, $name, $suffix);
 
         return method_exists($object, $method) ? $method : NULL;
     }
@@ -27,27 +44,27 @@ class DtoHelper
     /**
      * Builds a method name based on prefix, name and suffix
      *
-     * @param null $prefix
-     * @param      $name
-     * @param null $suffix
+     * @param string $prefix
+     * @param string $name
+     * @param string $suffix
      *
      * @return string
      */
-    public static function methodName($prefix = NULL, $name, $suffix = NULL)
+    public static function methodName($prefix, $name, $suffix = NULL)
     {
         $name = str_replace([' ', '-', '.'], '_', $name);
 
-        if (Str::contains($name, '_') || self::isAllCaps($name)) {
+        if (static::contains($name, '_') || static::isAllCaps($name)) {
             $name = strtolower($name);
         }
 
         $elPrefix = $prefix;
-        $elName   = ucfirst(Str::camel($name));
+        $elName   = ucfirst(static::camel($name));
         $elSuffix = $suffix;
 
         if (empty($prefix)) {
             $elPrefix = NULL;
-            $elName   = Str::camel($name);
+            $elName   = static::camel($name);
         }
 
         if ($suffix) {
@@ -59,36 +76,116 @@ class DtoHelper
         return $method;
     }
 
-    public static function camel($value)
+    /**
+     * Determine if a given string contains a given substring.
+     *
+     * @param  string       $haystack
+     * @param  string|array $needles
+     *
+     * @return bool
+     */
+    public static function contains($haystack, $needles)
     {
-        $camel = str_replace([' ', '-', '.'], '_', $value);
-
-        if (self::isAllCaps($camel)) {
-            $camel = strtolower($camel);
+        foreach ((array)$needles as $needle) {
+            if ($needle !== '' && mb_strpos($haystack, $needle) !== FALSE) {
+                return TRUE;
+            }
         }
 
-        $camel = Str::camel($camel);
-
-        return $camel;
-    }
-
-    public static function snake($value)
-    {
-        $snake = str_replace([' ', '-', '.'], '_', $value);
-        $snake = preg_replace('/(\d.*)/', '_$1', $snake);
-        $snake = str_replace('__', '_', $snake);
-
-        if (self::isAllCaps($snake)) {
-            $snake = strtolower($snake);
-        }
-
-        $snake = Str::snake($snake);
-
-        return $snake;
+        return FALSE;
     }
 
     public static function isAllCaps($value)
     {
         return strtoupper($value) == $value;
+    }
+
+    public static function camel($value)
+    {
+        if (isset(static::$camelCache[ $value ])) {
+            return static::$camelCache[ $value ];
+        }
+
+        $camel = str_replace([' ', '-', '.'], '_', $value);
+
+        if (static::isAllCaps($camel)) {
+            $camel = strtolower($camel);
+        }
+
+        return static::$camelCache[ $value ] = lcfirst(static::studly($camel));
+    }
+
+    /**
+     * Convert a value to studly caps case.
+     *
+     * @param  string $value
+     *
+     * @return string
+     */
+    public static function studly($value)
+    {
+        $key = $value;
+        if (isset(static::$studlyCache[ $key ])) {
+            return static::$studlyCache[ $key ];
+        }
+        $value = ucwords(str_replace(['-', '_'], ' ', $value));
+
+        return static::$studlyCache[ $key ] = str_replace(' ', '', $value);
+    }
+
+    public static function snake($value, $delimiter = '_')
+    {
+        $key = $value;
+
+        if (isset(static::$snakeCache[ $key ][ $delimiter ])) {
+            return static::$snakeCache[ $key ][ $delimiter ];
+        }
+
+        $snake = str_replace([' ', '-', '.'], '_', $value);
+        $snake = preg_replace('/(\d.*)/', '_$1', $snake);
+        $snake = str_replace('__', '_', $snake);
+
+        if (static::isAllCaps($snake)) {
+            $snake = strtolower($snake);
+        }
+
+        if (!ctype_lower($snake)) {
+            $snake = preg_replace('/\s+/u', '', ucwords($snake));
+            $snake = static::lower(preg_replace('/(.)(?=[A-Z])/u', '$1' . $delimiter, $snake));
+        }
+
+        return static::$snakeCache[ $key ][ $delimiter ] = $snake;
+    }
+
+    /**
+     * Convert the given string to lower-case.
+     *
+     * @param  string $value
+     *
+     * @return string
+     */
+    public static function lower($value)
+    {
+        return mb_strtolower($value, 'UTF-8');
+    }
+
+    /**
+     * Generate a more truly "random" alpha-numeric string.
+     *
+     * @param  int $length
+     *
+     * @return string
+     * @throws \Exception
+     */
+    public static function random($length = 16)
+    {
+        $string = '';
+        while (($len = strlen($string)) < $length) {
+            $size   = $length - $len;
+            $bytes  = random_bytes($size);
+            $string .= substr(str_replace(['/', '+', '='], '', base64_encode($bytes)), 0, $size);
+        }
+
+        return $string;
     }
 }

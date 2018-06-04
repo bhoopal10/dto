@@ -1,5 +1,6 @@
 <?php
 
+use Fnp\Dto\Common\Helper\DtoHelper;
 use Fnp\Dto\Flex\DtoModel;
 use Illuminate\Support\Str;
 
@@ -22,7 +23,7 @@ class BasicFunctionalityTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(count($this->data), count($cars->toArray()));
 
         foreach ($this->data as $key => $value) {
-            $this->assertEquals($value, $cars->toArray()[ Str::camel($key) ]);
+            $this->assertEquals($value, $cars->toArray()[ DtoHelper::camel($key) ]);
         }
 
         return $cars;
@@ -40,7 +41,7 @@ class BasicFunctionalityTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(count($this->data), count($model->toArray()));
 
         foreach ($this->data as $key => $value) {
-            $this->assertEquals($value, $model->toArray()[ Str::camel($key) ]);
+            $this->assertEquals($value, $model->toArray()[ DtoHelper::camel($key) ]);
         }
     }
 }

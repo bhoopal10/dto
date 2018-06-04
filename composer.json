@@ -1,6 +1,6 @@
 {
   "name": "framesnpictures/dto",
-  "description": "Universal Data Transport Objects for Laravel",
+  "description": "Universal Data Transport Objects",
   "authors": [
     {
       "name": "Chris Cynarski",
@@ -9,7 +9,7 @@
   ],
   "minimum-stability": "dev",
   "require": {
-    "illuminate/support": "5.*"
+    "tightenco/collect": "dev-master"
   },
   "autoload": {
     "psr-4": {
@@ -19,6 +19,6 @@
   "require-dev": {
     "phpunit/phpunit": "^5.3",
     "fzaninotto/faker": "^1.6",
-    "orchestra/testbench": "3.*"
+    "carbondate/carbon": "^2.0@dev"
   }
 }

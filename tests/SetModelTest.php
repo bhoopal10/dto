@@ -1,7 +1,7 @@
 <?php
 
+use Fnp\Dto\Common\Helper\DtoHelper;
 use Fnp\Dto\Set\SetModel;
-use Illuminate\Support\Str;
 
 class SetModelTest extends PHPUnit_Framework_TestCase
 {
@@ -82,11 +82,12 @@ class SetModelTest extends PHPUnit_Framework_TestCase
      * @param $handle
      *
      * @dataProvider provideTestData
+     * @throws Exception
      */
     public function testHas($handle)
     {
         $this->assertTrue(BasicDigitSet::has($handle), 'Handle ' . $handle . ' should exist but it doesn\'t!');
-        $this->assertFalse(BasicDigitSet::has(Str::random(10)));
+        $this->assertFalse(BasicDigitSet::has(DtoHelper::random(10)));
     }
 
     /**

@@ -2,7 +2,12 @@
 
 namespace Fnp\Dto\Common\Helper;
 
-class InstanceOfThe
+/**
+ * Class Iof (Instance Of)
+ *
+ * @package Fnp\Dto\Common\Helper
+ */
+class Iof
 {
     public static function arrayable($object)
     {

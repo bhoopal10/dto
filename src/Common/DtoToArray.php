@@ -2,8 +2,8 @@
 
 namespace Fnp\Dto\Common;
 
-use Fnp\Dto\Common\Helper\DtoHelper;
-use Fnp\Dto\Common\Helper\InstanceOfThe;
+use Fnp\Dto\Common\Helper\Iof;
+use Fnp\Dto\Common\Helper\Obj;
 use ReflectionProperty;
 
 trait DtoToArray
@@ -28,10 +28,10 @@ trait DtoToArray
 
             $varName = $varRef->getName();
 
-            if (InstanceOfThe::arrayable($this->$varName) && $follow) {
+            if (Iof::arrayable($this->$varName) && $follow) {
                 $array[ $varName ] = $this->$varName->toArray();
             } else {
-                $getter = DtoHelper::methodExists($this, 'get', $varName);
+                $getter = Obj::methodExists($this, 'get', $varName);
 
                 if ($getter) {
                     $array[ $varName ] = $this->$getter();

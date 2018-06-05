@@ -2,9 +2,10 @@
 
 namespace Fnp\Dto\Common;
 
-use Fnp\Dto\Common\Helper\DtoHelper;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\Arr;
+use Fnp\Dto\Common\Helper\Iof;
+use Fnp\Dto\Common\Helper\Obj;
+use Fnp\Dto\Common\Helper\Str;
+use Tightenco\Collect\Support\Arr;
 
 trait DtoFill
 {
@@ -19,7 +20,7 @@ trait DtoFill
             return;
         }
 
-        if (!Arr::accessible($items) && $items instanceof Arrayable) {
+        if (!Arr::accessible($items) && Iof::arrayable($items)) {
             $items = $items->toArray();
         }
 
@@ -27,7 +28,12 @@ trait DtoFill
             $items = get_object_vars($items);
         }
 
-        $reflection = new \ReflectionClass($this);
+        try {
+            $reflection = new \ReflectionClass($this);
+        } catch (\ReflectionException $e) {
+            return;
+        }
+
         $vars       = $reflection->getProperties();
 
         foreach ($vars as $variable) {
@@ -38,17 +44,17 @@ trait DtoFill
             $varValue = Arr::get($items, $varName);
 
             if (is_null($varValue)) {
-                $snakeVersion = DtoHelper::snake($varName);
+                $snakeVersion = Str::snake($varName);
                 $varValue     = Arr::get($items, $snakeVersion);
             }
 
             if (is_null($varValue)) {
-                $camelVersion = DtoHelper::camel($varName);
+                $camelVersion = Str::camel($varName);
                 $varValue     = Arr::get($items, $camelVersion);
             }
 
             if (!is_null($varValue)) {
-                $setter = DtoHelper::methodExists($this, 'fill', $varName);
+                $setter = Obj::methodExists($this, 'fill', $varName);
 
                 if ($setter) {
                     $varValue = $this->$setter($varValue);

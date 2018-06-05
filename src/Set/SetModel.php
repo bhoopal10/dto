@@ -2,7 +2,7 @@
 
 namespace Fnp\Dto\Set;
 
-use Fnp\Dto\Common\Helper\DtoHelper;
+use Fnp\Dto\Common\Helper\Obj;
 
 class SetModel
 {
@@ -65,7 +65,11 @@ class SetModel
 
     public static function constants()
     {
-        $reflection = new \ReflectionClass(get_called_class());
+        try {
+            $reflection = new \ReflectionClass(get_called_class());
+        } catch (\ReflectionException $e) {
+            return [];
+        }
 
         $constants = $reflection->getConstants();
 
@@ -76,18 +80,23 @@ class SetModel
     {
         $constants = self::constants();
         $handles   = array_flip($constants);
-        $method    = DtoHelper::methodName('set', $handles[ $handle ]);
+        $method    = Obj::methodName('set', $handles[ $handle ]);
 
         if (method_exists($this, $method)) {
             $this->$method();
         }
 
-        $reflection = new \ReflectionClass($this);
+        try {
+            $reflection = new \ReflectionClass($this);
+        } catch (\ReflectionException $e) {
+            return;
+        }
+
         $variables  = $reflection->getProperties();
 
         foreach ($variables as $variable) {
             $varName = $variable->getName();
-            $method  = DtoHelper::methodName('get', $varName);
+            $method  = Obj::methodName('get', $varName);
 
             if (!method_exists($this, $method))
                 continue;

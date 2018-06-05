@@ -1,6 +1,7 @@
 <?php
 
-use Fnp\Dto\Common\Helper\DtoHelper;
+use Fnp\Dto\Common\Helper\Obj;
+use Fnp\Dto\Common\Helper\Str;
 
 class DtoHelperTest extends \PHPUnit_Framework_TestCase
 {
@@ -123,7 +124,7 @@ class DtoHelperTest extends \PHPUnit_Framework_TestCase
      */
     public function testMethodNames($prefix, $name, $suffix, $methodName)
     {
-        $this->assertEquals($methodName, DtoHelper::methodName($prefix, $name, $suffix));
+        $this->assertEquals($methodName, Obj::methodName($prefix, $name, $suffix));
     }
 
     /**
@@ -136,7 +137,7 @@ class DtoHelperTest extends \PHPUnit_Framework_TestCase
      */
     public function testAllCaps($value, $isAllCaps)
     {
-        $this->assertEquals($isAllCaps, DtoHelper::isAllCaps($value));
+        $this->assertEquals($isAllCaps, Str::isAllCaps($value));
     }
 
     /**
@@ -149,7 +150,7 @@ class DtoHelperTest extends \PHPUnit_Framework_TestCase
      */
     public function testCamel($input, $output)
     {
-        $this->assertEquals($output, DtoHelper::camel($input));
+        $this->assertEquals($output, Str::camel($input));
     }
 
     /**
@@ -162,6 +163,6 @@ class DtoHelperTest extends \PHPUnit_Framework_TestCase
      */
     public function testSnake($input, $output)
     {
-        $this->assertEquals($output, DtoHelper::snake($input));
+        $this->assertEquals($output, Str::snake($input));
     }
 }

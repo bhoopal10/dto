@@ -2,6 +2,7 @@
 
 namespace Fnp\Dto\Common;
 
+use Fnp\Dto\Common\Flags\DtoFillFlags;
 use Fnp\Dto\Common\Helper\Iof;
 use Fnp\Dto\Common\Helper\Obj;
 use Fnp\Dto\Common\Helper\Str;
@@ -12,9 +13,10 @@ trait DtoFill
     /**
      * Populate items
      *
-     * @param array $items
+     * @param array      $items
+     * @param array|null $flags
      */
-    public function fill($items)
+    public function fill($items, $flags = NULL)
     {
         if (is_null($items)) {
             return;
@@ -34,7 +36,8 @@ trait DtoFill
             return;
         }
 
-        $vars       = $reflection->getProperties();
+        $flags = DtoFillFlags::make($flags);
+        $vars  = $reflection->getProperties($flags->reflectionOptions());
 
         foreach ($vars as $variable) {
 
@@ -43,12 +46,12 @@ trait DtoFill
             $varName  = $variable->getName();
             $varValue = Arr::get($items, $varName);
 
-            if (is_null($varValue)) {
+            if (is_null($varValue) && $flags->not(DtoFillFlags::STRICT_PROPERTIES)) {
                 $snakeVersion = Str::snake($varName);
                 $varValue     = Arr::get($items, $snakeVersion);
             }
 
-            if (is_null($varValue)) {
+            if (is_null($varValue) && $flags->not(DtoFillFlags::STRICT_PROPERTIES)) {
                 $camelVersion = Str::camel($varName);
                 $varValue     = Arr::get($items, $camelVersion);
             }

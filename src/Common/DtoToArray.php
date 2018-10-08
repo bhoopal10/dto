@@ -9,12 +9,12 @@ use ReflectionProperty;
 trait DtoToArray
 {
     /**
-     * @param boolean $follow Should we convert the objects to array?
+     * @param boolean $serializeObjects Should we convert the objects to array?
      *
      * @return array
      * @throws \ReflectionException
      */
-    public function toArray($follow = TRUE)
+    public function toArray($serializeObjects = TRUE)
     {
         $reflection = new \ReflectionClass($this);
         $vars       = $reflection->getProperties(
@@ -28,7 +28,7 @@ trait DtoToArray
 
             $varName = $varRef->getName();
 
-            if (Iof::arrayable($this->$varName) && $follow) {
+            if (Iof::arrayable($this->$varName) && $serializeObjects) {
                 $array[ $varName ] = $this->$varName->toArray();
             } else {
                 $getter = Obj::methodExists($this, 'get', $varName);

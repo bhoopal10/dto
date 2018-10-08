@@ -2,10 +2,13 @@
 
 namespace Fnp\Dto\Set;
 
+use Fnp\Dto\Common\DtoConstants;
 use Fnp\Dto\Common\Helper\Obj;
 
 class SetModel
 {
+    use DtoConstants;
+
     protected $_handle;
 
     public static function make($handle)
@@ -61,19 +64,6 @@ class SetModel
         }
 
         return $pluck;
-    }
-
-    public static function constants()
-    {
-        try {
-            $reflection = new \ReflectionClass(get_called_class());
-        } catch (\ReflectionException $e) {
-            return [];
-        }
-
-        $constants = $reflection->getConstants();
-
-        return $constants;
     }
 
     protected function build($handle)

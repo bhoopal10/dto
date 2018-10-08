@@ -13,7 +13,7 @@ trait DtoMapperFill
      *
      * @param $items
      */
-    public function fill($items)
+    public function fill($items, $flags = NULL)
     {
         if (!Arr::accessible($items) && Iof::arrayable($items)) {
             $items = $items->toArray();

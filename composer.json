@@ -9,7 +9,7 @@
   ],
   "minimum-stability": "dev",
   "require": {
-    "tightenco/collect": "dev-master"
+    "tightenco/collect": "^5.7"
   },
   "autoload": {
     "psr-4": {

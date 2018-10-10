@@ -35,7 +35,7 @@ class DtoCollectionFactory
         }
 
         if ($collection instanceof \stdClass) {
-            $collection = get_class_vars($collection);
+            $collection = get_object_vars($collection);
         }
 
         if (Iof::arrayable($collection)) {

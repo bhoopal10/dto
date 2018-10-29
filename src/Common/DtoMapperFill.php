@@ -2,9 +2,9 @@
 
 namespace Fnp\Dto\Common;
 
-use Fnp\Dto\Common\Helper\DtoHelper;
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\Arr;
+use Fnp\Dto\Common\Helper\Iof;
+use Fnp\Dto\Common\Helper\Obj;
+use Tightenco\Collect\Support\Arr;
 
 trait DtoMapperFill
 {
@@ -13,9 +13,9 @@ trait DtoMapperFill
      *
      * @param $items
      */
-    public function fill($items)
+    public function fill($items, $flags = NULL)
     {
-        if (!Arr::accessible($items) && $items instanceof Arrayable) {
+        if (!Arr::accessible($items) && Iof::arrayable($items)) {
             $items = $items->toArray();
         }
 
@@ -23,8 +23,13 @@ trait DtoMapperFill
             $items = get_object_vars($items);
         }
 
-        $reflection = new \ReflectionClass($this);
-        $vars       = $reflection->getProperties();
+        try {
+            $reflection = new \ReflectionClass($this);
+        } catch (\ReflectionException $e) {
+            return;
+        }
+
+        $vars = $reflection->getProperties();
 
         /** @var \ReflectionProperty $var */
         foreach ($vars as $variable) {
@@ -43,7 +48,7 @@ trait DtoMapperFill
                 $value = $items;
             }
 
-            $setter = DtoHelper::methodExists($this, 'fill', $var);
+            $setter = Obj::methodExists($this, 'fill', $var);
 
             if ($setter) {
 

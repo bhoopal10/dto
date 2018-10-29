@@ -2,18 +2,19 @@
 
 namespace Fnp\Dto\Common;
 
-use Fnp\Dto\Common\Helper\DtoHelper;
-use Illuminate\Contracts\Support\Arrayable;
+use Fnp\Dto\Common\Helper\Iof;
+use Fnp\Dto\Common\Helper\Obj;
 use ReflectionProperty;
 
 trait DtoToArray
 {
     /**
-     * @param boolean $follow Should we convert the objects to array?
+     * @param boolean $serializeObjects Should we convert the objects to array?
      *
      * @return array
+     * @throws \ReflectionException
      */
-    public function toArray($follow = TRUE)
+    public function toArray($serializeObjects = TRUE)
     {
         $reflection = new \ReflectionClass($this);
         $vars       = $reflection->getProperties(
@@ -27,15 +28,15 @@ trait DtoToArray
 
             $varName = $varRef->getName();
 
-            if ($this->$varName instanceof Arrayable && $follow) {
-                $array[$varName] = $this->$varName->toArray();
+            if (Iof::arrayable($this->$varName) && $serializeObjects) {
+                $array[ $varName ] = $this->$varName->toArray();
             } else {
-                $getter = DtoHelper::methodExists($this, 'get', $varName);
+                $getter = Obj::methodExists($this, 'get', $varName);
 
                 if ($getter) {
-                    $array[$varName] = $this->$getter();
+                    $array[ $varName ] = $this->$getter();
                 } else {
-                    $array[$varName] = $this->$varName;
+                    $array[ $varName ] = $this->$varName;
                 }
             }
         }

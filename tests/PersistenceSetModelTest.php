@@ -1,35 +1,35 @@
 <?php
 
 use Fnp\Dto\Common\Helper\Str;
-use Fnp\Dto\Set\SetModel;
+use Fnp\Dto\Set\PersistenceSetModel;
 
-class SetModelTest extends PHPUnit_Framework_TestCase
+class PersistenceSetModelTest extends PHPUnit_Framework_TestCase
 {
     public function provideTestData()
     {
         return [
             [
-                BasicDigitSet::ONE,
+                BasicPersistenceDigitSet::ONE,
                 'One',
                 1,
             ],
             [
-                BasicDigitSet::TWO,
+                BasicPersistenceDigitSet::TWO,
                 'Two',
                 2,
             ],
             [
-                BasicDigitSet::THREE,
+                BasicPersistenceDigitSet::THREE,
                 'Three',
                 3,
             ],
             [
-                BasicDigitSet::FOUR,
+                BasicPersistenceDigitSet::FOUR,
                 NULL,
                 NULL,
             ],
             [
-                BasicDigitSet::TWENTY_TWO,
+                BasicPersistenceDigitSet::TWENTY_TWO,
                 'The Twenty Two',
                 222,
             ],
@@ -45,7 +45,7 @@ class SetModelTest extends PHPUnit_Framework_TestCase
      */
     public function testVariables($handle, $name, $digit)
     {
-        $digits = BasicDigitSet::make($handle);
+        $digits = BasicPersistenceDigitSet::make($handle);
 
         $this->assertEquals($name, $digits->name);
         $this->assertEquals($digit, $digits->digit);
@@ -60,18 +60,18 @@ class SetModelTest extends PHPUnit_Framework_TestCase
      */
     public function testPluck($handle, $name, $digit)
     {
-        $pluck = BasicDigitSet::pluck('name');
+        $pluck = BasicPersistenceDigitSet::pluck('name');
 
         $this->assertArrayHasKey($handle, $pluck);
         $this->assertEquals($name, $pluck[ $handle ]);
 
-        $pluck = BasicDigitSet::pluck('digit');
+        $pluck = BasicPersistenceDigitSet::pluck('digit');
 
         $this->assertArrayHasKey($handle, $pluck);
         $this->assertEquals($digit, $pluck[ $handle ]);
 
         if ($name) {
-            $pluck = BasicDigitSet::pluck('digit', 'name');
+            $pluck = BasicPersistenceDigitSet::pluck('digit', 'name');
 
             $this->assertArrayHasKey($name, $pluck);
             $this->assertEquals($digit, $pluck[ $name ]);
@@ -86,8 +86,8 @@ class SetModelTest extends PHPUnit_Framework_TestCase
      */
     public function testHas($handle)
     {
-        $this->assertTrue(BasicDigitSet::has($handle), 'Handle ' . $handle . ' should exist but it doesn\'t!');
-        $this->assertFalse(BasicDigitSet::has(Str::random(10)));
+        $this->assertTrue(BasicPersistenceDigitSet::has($handle), 'Handle ' . $handle . ' should exist but it doesn\'t!');
+        $this->assertFalse(BasicPersistenceDigitSet::has(Str::random(10)));
     }
 
     /**
@@ -97,11 +97,11 @@ class SetModelTest extends PHPUnit_Framework_TestCase
      */
     public function testHandle($handle)
     {
-        $this->assertEquals($handle, BasicDigitSet::make($handle)->handle());
+        $this->assertEquals($handle, BasicPersistenceDigitSet::make($handle)->handle());
     }
 }
 
-class BasicDigitSet extends SetModel
+class BasicPersistenceDigitSet extends PersistenceSetModel
 {
     const ONE        = 'one';
     const TWO        = 'two';
@@ -112,35 +112,36 @@ class BasicDigitSet extends SetModel
     public $name;
     public $digit;
 
-    public function setOne()
-    {
-        $this->name  = 'One';
-        $this->digit = 1;
-    }
 
-    public function setTwo()
+    protected function retrieve($handle)
     {
-        $this->name  = 'Two';
-        $this->digit = 2;
-    }
-
-    public function setThree()
-    {
-        $this->name  = 'Three';
-        $this->digit = 3;
-    }
-
-    public function setTwentyTwo()
-    {
-        $this->name  = 'The Twenty Two';
-        $this->digit = 22;
-    }
-
-    public function getDigit()
-    {
-        return [
-            self::TWENTY_TWO => 222,
+        $data = [
+            [
+                'handle' => 'one',
+                'name'   => 'One',
+                'digit'  => 1,
+            ],
+            [
+                'handle' => 'two',
+                'name'   => 'Two',
+                'digit'  => 2,
+            ],
+            [
+                'handle' => 'three',
+                'name'   => 'Three',
+                'digit'  => 3,
+            ],
+            [
+                'handle' => 'theTwentyTwo',
+                'name'   => 'The Twenty Two',
+                'digit'  => 222,
+            ],
         ];
-    }
 
+        foreach ($data as $record) {
+            if ($record['handle'] == $handle) {
+                return $record;
+            }
+        }
+    }
 }

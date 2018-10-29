@@ -1,7 +1,7 @@
 <?php
 
+use Fnp\Dto\Common\Helper\Str;
 use Fnp\Dto\Flex\DtoModel;
-use Illuminate\Support\Str;
 
 class BasicFunctionalityTest extends \PHPUnit_Framework_TestCase
 {

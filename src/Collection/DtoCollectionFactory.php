@@ -2,9 +2,10 @@
 
 namespace Fnp\Dto\Collection;
 
+use Fnp\Dto\Common\Helper\Iof;
 use Fnp\Dto\Exception\DtoClassNotExistsException;
 use Fnp\Dto\Flex\DtoModel;
-use Illuminate\Support\Collection;
+use Tightenco\Collect\Support\Collection;
 
 /**
  * DTO Collection Factory Class
@@ -34,7 +35,11 @@ class DtoCollectionFactory
         }
 
         if ($collection instanceof \stdClass) {
-            $collection = get_class_vars($collection);
+            $collection = get_object_vars($collection);
+        }
+
+        if (Iof::arrayable($collection)) {
+            $collection = $collection->toArray();
         }
 
         if (!$collection instanceof Collection) {

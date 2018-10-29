@@ -2,7 +2,7 @@
 
 namespace Fnp\Dto\Mapper;
 
-use Fnp\Dto\Common\Helper\DtoHelper;
+use Fnp\Dto\Common\Helper\Str;
 
 class ClassMap
 {
@@ -57,7 +57,7 @@ class ClassMap
 
     protected static function generateHandle($string)
     {
-        return DtoHelper::camel($string);
+        return Str::camel($string);
     }
 
     public static function extend($handle, $class)
@@ -65,9 +65,18 @@ class ClassMap
         self::$extensions[get_called_class()][$handle] = $class;
     }
 
+    /**
+     * Returns an array of constants
+     *
+     * @return array
+     */
     public static function constants()
     {
-        $reflection = new \ReflectionClass(get_called_class());
+        try {
+            $reflection = new \ReflectionClass(get_called_class());
+        } catch (\ReflectionException $e) {
+            return [];
+        }
 
         $constants = $reflection->getConstants();
 

@@ -8,9 +8,10 @@ use Fnp\Dto\Common\DtoToArray;
 use Fnp\Dto\Common\DtoToJson;
 use Fnp\Dto\Contract\DtoModelContract;
 use Fnp\Dto\Exception;
+use Tightenco\Collect\Contracts\Support\Arrayable;
 use Tightenco\Collect\Support\Collection;
 
-abstract class DtoModel implements DtoModelContract
+abstract class DtoModel implements DtoModelContract, Arrayable
 {
     use DtoToArray;
     use DtoToJson;

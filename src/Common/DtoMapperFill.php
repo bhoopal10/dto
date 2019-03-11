@@ -19,7 +19,7 @@ trait DtoMapperFill
     public function fill($items, $flags = NULL)
     {
         if (!Arr::accessible($items) && Iof::arrayable($items)) {
-            $items = $items->toArray(DtoToArrayFlags::SERIALIZE_OBJECTS);
+            $items = $items->toArray();
         }
 
         if ($items instanceof \stdClass) {

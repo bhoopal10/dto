@@ -17,10 +17,6 @@ trait DtoToArray
      */
     public function toArray($flags = NULL)
     {
-        // For compatibility
-        if ($flags === TRUE)
-            $flags = DtoToArrayFlags::SERIALIZE_OBJECTS;
-
         $flags      = new DtoToArrayFlags($flags);
         $reflection = new \ReflectionClass($this);
         $vars       = $reflection->getProperties(
@@ -36,10 +32,10 @@ trait DtoToArray
             $varName  = $varRef->getName();
             $varValue = $varRef->getValue($this);
 
-            if (Iof::arrayable($varValue) && $flags->serializeObjects()) {
-                $array[ $varName ] = $varValue->toArray();
-            } elseif (Iof::stringable($this->$varName) && $flags->serializeStringProviders()) {
+            if (Iof::stringable($varValue) && $flags->serializeStringProviders()) {
                 $array[ $varName ] = $varValue->__toString();
+            } elseif (Iof::arrayable($varValue) && $flags->serializeObjects()) {
+                $array[ $varName ] = $varValue->toArray();
             } else {
                 $getter = Obj::methodExists($this, 'get', $varName);
 

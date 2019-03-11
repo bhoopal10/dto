@@ -3,7 +3,6 @@
 namespace Fnp\Dto\Common;
 
 use Fnp\Dto\Common\Flags\DtoFillFlags;
-use Fnp\Dto\Common\Flags\DtoToArrayFlags;
 use Fnp\Dto\Common\Helper\Iof;
 use Fnp\Dto\Common\Helper\Obj;
 use Fnp\Dto\Common\Helper\Str;
@@ -24,7 +23,7 @@ trait DtoFill
         }
 
         if (!Arr::accessible($items) && Iof::arrayable($items)) {
-            $items = $items->toArray(DtoToArrayFlags::SERIALIZE_OBJECTS);
+            $items = $items->toArray();
         }
 
         if ($items instanceof \stdClass) {

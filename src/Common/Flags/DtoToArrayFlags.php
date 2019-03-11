@@ -7,12 +7,12 @@ use ReflectionProperty;
 
 class DtoToArrayFlags extends FlagModel
 {
-    const INCLUDE_PUBLIC             = 0b0000001; // Fill only public properties
-    const INCLUDE_PROTECTED          = 0b0000010; // Fill only protected properties
-    const INCLUDE_PRIVATE            = 0b0000100; // Fill only private properties
-    const EXCLUDE_NULLS              = 0b0001000; // Exclude values with NULL
-    const SERIALIZE_OBJECTS          = 0b0010000; // Serialize objects
-    const SERIALIZE_STRING_PROVIDERS = 0b0100000; // Serialize objects with __toString
+    const INCLUDE_PUBLIC                  = 0b00000001; // Fill only public properties
+    const INCLUDE_PROTECTED               = 0b00000010; // Fill only protected properties
+    const INCLUDE_PRIVATE                 = 0b00000100; // Fill only private properties
+    const EXCLUDE_NULLS                   = 0b00001000; // Exclude values with NULL
+    const DONT_SERIALIZE_OBJECTS          = 0b00010000; // Do Not Serialize objects
+    const DONT_SERIALIZE_STRING_PROVIDERS = 0b00100000; // Do Not Serialize objects with __toString
 
     /**
      * Reflection options based on the flags
@@ -41,12 +41,12 @@ class DtoToArrayFlags extends FlagModel
 
     public function serializeObjects()
     {
-        return $this->has(self::SERIALIZE_OBJECTS);
+        return $this->not(self::DONT_SERIALIZE_OBJECTS);
     }
 
     public function serializeStringProviders()
     {
-        return $this->has(self::SERIALIZE_STRING_PROVIDERS);
+        return $this->not(self::DONT_SERIALIZE_STRING_PROVIDERS);
     }
 
     public function excludeNulls()

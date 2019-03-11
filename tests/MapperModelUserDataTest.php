@@ -1,6 +1,7 @@
 <?php
 
 use Carbon\Carbon;
+use Fnp\Dto\Common\Flags\DtoToArrayFlags;
 use Fnp\Dto\Mapper\MapperModel;
 
 class MapperModelUserDataTest extends \PHPUnit_Framework_TestCase
@@ -79,7 +80,7 @@ class MapperModelUserDataTest extends \PHPUnit_Framework_TestCase
     {
         $model = UserData::make($input);
 
-        $this->assertEquals($output, $model->toArray());
+        $this->assertEquals($output, $model->toArray(DtoToArrayFlags::DONT_SERIALIZE_STRING_PROVIDERS));
     }
 }
 

@@ -33,29 +33,28 @@ class MapperModelPostApiTest extends \PHPUnit_Framework_TestCase
      * @param $output
      *
      * @dataProvider generateData
+     * @throws ReflectionException
      */
     public function testData($input, $output)
     {
-        $post = Post::make($input);
+        $post = PostModel::make($input);
 
-        $this->assertTrue(is_object($post));
-        $this->assertTrue(is_object($post->author));
+        $this->assertTrue(is_object($post), 'Checking Flex Model');
+        $this->assertTrue(is_object($post->author), 'Checking Flex Model Sub Object');
 
-        $postApi = PostApi::make($post);
+        $postApi = PostApiModel::make($post);
 
-        $this->assertEquals($output, $postApi->toArray());
+        $this->assertEquals($output, $postApi->toArray(), 'Checking mapper');
     }
-
-
 }
 
-class Author extends DtoModel
+class AuthorModel extends DtoModel
 {
     public $name;
     public $email;
 }
 
-class Post extends DtoModel
+class PostModel extends DtoModel
 {
     public $title;
     public $body;
@@ -63,12 +62,12 @@ class Post extends DtoModel
 
     public function fillAuthor($author)
     {
-        return Author::make($author);
+        return AuthorModel::make($author);
     }
 }
 
 
-class PostApi extends MapperModel
+class PostApiModel extends MapperModel
 {
     public $header      = 'title';
     public $body        = 'body';

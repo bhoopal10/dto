@@ -3,21 +3,14 @@
 namespace Fnp\Dto\Common\Flags;
 
 use Fnp\Dto\Flag\FlagModel;
+use ReflectionProperty;
 
 class DtoFillFlags extends FlagModel
 {
-    /*
-     * Fill Certain Property Types
-     */
-    const FILL_PUBLIC    = \ReflectionProperty::IS_PUBLIC;
-    const FILL_PROTECTED = \ReflectionProperty::IS_PROTECTED;
-    const FILL_PRIVATE   = \ReflectionProperty::IS_PRIVATE;
-
-    /*
-     * Do not try to match Camel Case <=> Snake Case
-     * when filling properties
-     */
-    const STRICT_PROPERTIES = 'spr';
+    const FILL_PUBLIC       = 0b0000001; // Fill only public properties
+    const FILL_PROTECTED    = 0b0000010; // Fill only protected properties
+    const FILL_PRIVATE      = 0b0000100; // Fill only private properties
+    const STRICT_PROPERTIES = 0b0001000; // Strict property matching (no Camel <=> Snake)
 
     /**
      * Reflection options based on the flags
@@ -26,22 +19,33 @@ class DtoFillFlags extends FlagModel
      */
     public function reflectionOptions()
     {
-        if ($this->none()) {
-            return self::FILL_PUBLIC | self::FILL_PROTECTED | self::FILL_PRIVATE;
-        }
+        $options = 0;
 
-        $flags   = $this->flags();
-        $options = array_pop($flags);
+        if ($this->has(self::FILL_PUBLIC))
+            $options += ReflectionProperty::IS_PUBLIC;
 
-        array_map(function ($flag) use (&$options) {
+        if ($this->has(self::FILL_PROTECTED))
+            $options += ReflectionProperty::IS_PROTECTED;
 
-            if (!is_numeric($flag))
-                return;
+        if ($this->has(self::FILL_PRIVATE))
+            $options += ReflectionProperty::IS_PRIVATE;
 
-            $options = $options | $flag;
-
-        }, $this->flags());
+        if ($options < 1)
+            $options = ReflectionProperty::IS_PUBLIC +
+                       ReflectionProperty::IS_PROTECTED +
+                       ReflectionProperty::IS_PRIVATE;
 
         return $options;
+    }
+
+    /**
+     * Should the property matching be string, meaining
+     * no Camel Case <=> Snake Case conversion.
+     *
+     * @return bool
+     */
+    public function strictProperties()
+    {
+        return $this->has(self::STRICT_PROPERTIES);
     }
 }

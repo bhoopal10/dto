@@ -2,6 +2,7 @@
 
 namespace Fnp\Dto\Common;
 
+use Fnp\Dto\Common\Flags\DtoToArrayFlags;
 use Fnp\Dto\Common\Helper\Iof;
 use Fnp\Dto\Common\Helper\Obj;
 use ReflectionProperty;
@@ -9,16 +10,21 @@ use ReflectionProperty;
 trait DtoToArray
 {
     /**
-     * @param boolean $serializeObjects Should we convert the objects to array?
+     * @param array|int Additional flags from DtoToArrayFlags?
      *
      * @return array
      * @throws \ReflectionException
      */
-    public function toArray($serializeObjects = TRUE)
+    public function toArray($flags = NULL)
     {
+        // For compatibility
+        if ($flags === TRUE)
+            $flags = DtoToArrayFlags::SERIALIZE_OBJECTS;
+
+        $flags      = new DtoToArrayFlags($flags);
         $reflection = new \ReflectionClass($this);
         $vars       = $reflection->getProperties(
-            ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED
+            $flags->reflectionOptions()
         );
 
         $array = [];
@@ -26,20 +32,29 @@ trait DtoToArray
         /** @var ReflectionProperty $varRef */
         foreach ($vars as $varRef) {
 
-            $varName = $varRef->getName();
+            $varRef->setAccessible(TRUE);
+            $varName  = $varRef->getName();
+            $varValue = $varRef->getValue($this);
 
-            if (Iof::arrayable($this->$varName) && $serializeObjects) {
-                $array[ $varName ] = $this->$varName->toArray();
+            if (Iof::arrayable($varValue) && $flags->serializeObjects()) {
+                $array[ $varName ] = $varValue->toArray();
+            } elseif (Iof::stringable($this->$varName) && $flags->serializeStringProviders()) {
+                $array[ $varName ] = $varValue->__toString();
             } else {
                 $getter = Obj::methodExists($this, 'get', $varName);
 
                 if ($getter) {
                     $array[ $varName ] = $this->$getter();
                 } else {
-                    $array[ $varName ] = $this->$varName;
+                    $array[ $varName ] = $varValue;
                 }
             }
         }
+
+        if ($flags->excludeNulls())
+            $array = array_filter($array, function ($value) {
+                return !is_null($value);
+            });
 
         return $array;
     }

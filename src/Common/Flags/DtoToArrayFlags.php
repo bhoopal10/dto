@@ -2,7 +2,56 @@
 
 namespace Fnp\Dto\Common\Flags;
 
-class DtoToArrayFlags
+use Fnp\Dto\Flag\FlagModel;
+use ReflectionProperty;
+
+class DtoToArrayFlags extends FlagModel
 {
-    const SERIALIZE_OBJECTS = 100;
+    const INCLUDE_PUBLIC             = 0b0000001; // Fill only public properties
+    const INCLUDE_PROTECTED          = 0b0000010; // Fill only protected properties
+    const INCLUDE_PRIVATE            = 0b0000100; // Fill only private properties
+    const EXCLUDE_NULLS              = 0b0001000; // Exclude values with NULL
+    const SERIALIZE_OBJECTS          = 0b0010000; // Serialize objects
+    const SERIALIZE_STRING_PROVIDERS = 0b0100000; // Serialize objects with __toString
+
+    /**
+     * Reflection options based on the flags
+     *
+     * @return int|mixed
+     */
+    public function reflectionOptions()
+    {
+        $options = 0;
+
+        if ($this->has(self::INCLUDE_PUBLIC))
+            $options += ReflectionProperty::IS_PUBLIC;
+
+        if ($this->has(self::INCLUDE_PROTECTED))
+            $options += ReflectionProperty::IS_PROTECTED;
+
+        if ($this->has(self::INCLUDE_PRIVATE))
+            $options += ReflectionProperty::IS_PRIVATE;
+
+        if ($options < 1)
+            $options = ReflectionProperty::IS_PUBLIC +
+                       ReflectionProperty::IS_PROTECTED;
+
+        return $options;
+    }
+
+    public function serializeObjects()
+    {
+        return $this->has(self::SERIALIZE_OBJECTS);
+    }
+
+    public function serializeStringProviders()
+    {
+        return $this->has(self::SERIALIZE_STRING_PROVIDERS);
+    }
+
+    public function excludeNulls()
+    {
+        return $this->has(self::EXCLUDE_NULLS);
+    }
+
 }

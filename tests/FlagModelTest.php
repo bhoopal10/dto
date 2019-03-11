@@ -5,10 +5,23 @@ class FlagModelTest extends \PHPUnit\Framework\TestCase
     public function data()
     {
         return [
-            [[],FALSE, FALSE, FALSE],
-            [[FlagA::SET_A], TRUE, FALSE, FALSE],
-            [[FlagA::SET_B], FALSE, TRUE, FALSE],
-            [[FlagA::SET_A,FlagA::SET_B], TRUE, TRUE, TRUE],
+            [NULL, FALSE, FALSE, FALSE, FALSE],
+
+            [FruitsFlagsModel::APPLE, TRUE, FALSE, FALSE],
+            [FruitsFlagsModel::ORANGE, FALSE, TRUE, FALSE],
+            [FruitsFlagsModel::PEAR, FALSE, FALSE, TRUE],
+
+            [FruitsFlagsModel::APPLE + FruitsFlagsModel::ORANGE, TRUE, TRUE, FALSE],
+            [FruitsFlagsModel::APPLE + FruitsFlagsModel::PEAR, TRUE, FALSE, TRUE],
+            [FruitsFlagsModel::APPLE + FruitsFlagsModel::ORANGE + FruitsFlagsModel::PEAR, TRUE, TRUE, TRUE],
+
+            [FruitsFlagsModel::ORANGE + FruitsFlagsModel::APPLE, TRUE, TRUE, FALSE],
+            [FruitsFlagsModel::ORANGE + FruitsFlagsModel::PEAR, FALSE, TRUE, TRUE],
+            [FruitsFlagsModel::ORANGE + FruitsFlagsModel::APPLE + FruitsFlagsModel::PEAR, TRUE, TRUE, TRUE],
+
+            [FruitsFlagsModel::PEAR + FruitsFlagsModel::APPLE, TRUE, FALSE, TRUE],
+            [FruitsFlagsModel::PEAR + FruitsFlagsModel::ORANGE, FALSE, TRUE, TRUE],
+            [FruitsFlagsModel::PEAR + FruitsFlagsModel::APPLE + FruitsFlagsModel::ORANGE, TRUE, TRUE, TRUE],
         ];
     }
 
@@ -17,45 +30,23 @@ class FlagModelTest extends \PHPUnit\Framework\TestCase
      * @param $isA
      * @param $isB
      * @param $isBoth
+     *
      * @dataProvider data
      */
-    public function testFlags($flags, $isA, $isB, $isBoth)
+    public function testFlags($flags, $isApple, $isOrange, $isPear)
     {
-        $f = new FlagA($flags);
+        $f = new FruitsFlagsModel($flags);
 
-        $this->assertEquals($isA, $f->is_a, 'Checking A');
-        $this->assertEquals($isB, $f->is_b, 'Checking B');
-        $this->assertEquals($isBoth, $f->is_both, 'Checking Both');
-    }
-
-    public function testAdd()
-    {
-        $this->assertTrue(TRUE);
+        $this->assertEquals($isApple, $f->has(FruitsFlagsModel::APPLE), 'Checking Apple');
+        $this->assertEquals($isOrange, $f->has(FruitsFlagsModel::ORANGE), 'Checking Orange');
+        $this->assertEquals($isPear, $f->has(FruitsFlagsModel::PEAR), 'Checking Pear');
     }
 
 }
 
-class FlagA extends \Fnp\Dto\Flag\FlagModel
+class FruitsFlagsModel extends \Fnp\Dto\Flag\FlagModel
 {
-    const SET_A = 100;
-    const SET_B = 110;
-
-    public $is_a;
-    public $is_b;
-    public $is_both;
-
-    public function getIsA()
-    {
-        return $this->has(self::SET_A);
-    }
-
-    public function getIsB()
-    {
-        return $this->has(self::SET_B);
-    }
-
-    public function getIsBoth()
-    {
-        return $this->has([self::SET_A,self::SET_B]);
-    }
+    const APPLE  = 0b001; // 1
+    const ORANGE = 0b010; // 2
+    const PEAR   = 0b100; // 4
 }

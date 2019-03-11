@@ -3,6 +3,7 @@
 namespace Fnp\Dto\Common;
 
 use Fnp\Dto\Common\Flags\DtoFillFlags;
+use Fnp\Dto\Common\Flags\DtoToArrayFlags;
 use Fnp\Dto\Common\Helper\Iof;
 use Fnp\Dto\Common\Helper\Obj;
 use Fnp\Dto\Common\Helper\Str;
@@ -23,7 +24,7 @@ trait DtoFill
         }
 
         if (!Arr::accessible($items) && Iof::arrayable($items)) {
-            $items = $items->toArray();
+            $items = $items->toArray(DtoToArrayFlags::SERIALIZE_OBJECTS);
         }
 
         if ($items instanceof \stdClass) {
@@ -46,12 +47,12 @@ trait DtoFill
             $varName  = $variable->getName();
             $varValue = Arr::get($items, $varName);
 
-            if (is_null($varValue) && $flags->not(DtoFillFlags::STRICT_PROPERTIES)) {
+            if (is_null($varValue) && !$flags->strictProperties()) {
                 $snakeVersion = Str::snake($varName);
                 $varValue     = Arr::get($items, $snakeVersion);
             }
 
-            if (is_null($varValue) && $flags->not(DtoFillFlags::STRICT_PROPERTIES)) {
+            if (is_null($varValue) && !$flags->strictProperties()) {
                 $camelVersion = Str::camel($varName);
                 $varValue     = Arr::get($items, $camelVersion);
             }

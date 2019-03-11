@@ -2,6 +2,8 @@
 
 namespace Fnp\Dto\Common;
 
+use Fnp\Dto\Common\Flags\DtoFillFlags;
+use Fnp\Dto\Common\Flags\DtoToArrayFlags;
 use Fnp\Dto\Common\Helper\Iof;
 use Fnp\Dto\Common\Helper\Obj;
 use Tightenco\Collect\Support\Arr;
@@ -11,12 +13,13 @@ trait DtoMapperFill
     /**
      * Populate items with mapping
      *
-     * @param $items
+     * @param array|mixed $items
+     * @param null        $flags
      */
     public function fill($items, $flags = NULL)
     {
         if (!Arr::accessible($items) && Iof::arrayable($items)) {
-            $items = $items->toArray();
+            $items = $items->toArray(DtoToArrayFlags::SERIALIZE_OBJECTS);
         }
 
         if ($items instanceof \stdClass) {
@@ -29,7 +32,8 @@ trait DtoMapperFill
             return;
         }
 
-        $vars = $reflection->getProperties();
+        $vars  = $reflection->getProperties();
+        $flags = new DtoFillFlags($flags);
 
         /** @var \ReflectionProperty $var */
         foreach ($vars as $variable) {

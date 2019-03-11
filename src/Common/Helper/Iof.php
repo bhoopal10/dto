@@ -11,10 +11,17 @@ class Iof
 {
     public static function arrayable($object)
     {
-        if (!is_object($object)) {
+        if (!is_object($object))
             return FALSE;
-        }
 
         return method_exists($object, 'toArray');
+    }
+
+    public static function stringable($object)
+    {
+        if (!is_object($object))
+            return FALSE;
+
+        return method_exists($object, '__toString');
     }
 }

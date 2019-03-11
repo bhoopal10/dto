@@ -9,7 +9,7 @@ class DtoFillFlagTest extends \PHPUnit\Framework\TestCase
         return [
             'All'=>[
                 DtoFillFlags::make(),
-                ReflectionProperty::IS_PRIVATE | ReflectionProperty::IS_PROTECTED | ReflectionProperty::IS_PUBLIC,
+                ReflectionProperty::IS_PRIVATE + ReflectionProperty::IS_PROTECTED + ReflectionProperty::IS_PUBLIC,
             ],
             'Public Only'=>[
                 DtoFillFlags::make(DtoFillFlags::FILL_PUBLIC),
@@ -24,12 +24,12 @@ class DtoFillFlagTest extends \PHPUnit\Framework\TestCase
                 ReflectionProperty::IS_PRIVATE,
             ],
             'Public & Protected'=>[
-                DtoFillFlags::make([DtoFillFlags::FILL_PUBLIC,DtoFillFlags::FILL_PROTECTED]),
-                ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PROTECTED,
+                DtoFillFlags::make(DtoFillFlags::FILL_PUBLIC + DtoFillFlags::FILL_PROTECTED),
+                ReflectionProperty::IS_PUBLIC + ReflectionProperty::IS_PROTECTED,
             ],
             'Public & Private'=>[
                 DtoFillFlags::make([DtoFillFlags::FILL_PUBLIC,DtoFillFlags::FILL_PRIVATE]),
-                ReflectionProperty::IS_PUBLIC | ReflectionProperty::IS_PRIVATE,
+                ReflectionProperty::IS_PUBLIC + ReflectionProperty::IS_PRIVATE,
             ],
         ];
     }

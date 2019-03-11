@@ -2,48 +2,27 @@
 
 namespace Fnp\Dto\Flag;
 
-use Fnp\Dto\Common\DtoProperties;
-use Fnp\Dto\Common\Helper\Obj;
-
 class FlagModel
 {
-    use DtoProperties;
+    private $_flags = 0;
 
-    private $_flags = [];
-
-    public function __construct($flags = [])
+    public function __construct($flags)
     {
         if (is_null($flags))
-            $flags = [];
+            $flags = 0;
 
-        if (!is_array($flags))
-            $flags = [$flags];
+        if ($flags instanceof FlagModel)
+            $flags = $flags->flags();
+
+        if (is_array($flags))
+            $flags = array_sum($flags);
 
         $this->_flags = $flags;
-
-        $this->build();
     }
 
-    public static function make($flags = [])
+    public static function make($flags = NULL)
     {
         return new static($flags);
-    }
-
-    protected function build()
-    {
-        $variables = self::properties();
-
-        foreach ($variables as $variable) {
-            $varName = $variable->getName();
-            $method  = Obj::methodName('get', $varName);
-
-            if (!method_exists($this, $method))
-                continue;
-
-            $value = $this->$method();
-
-            $this->$varName = $value;
-        }
     }
 
     /**
@@ -55,15 +34,10 @@ class FlagModel
      */
     public function add($flags)
     {
-        if (!is_array($flags)) {
-            $flags = [];
-        }
+        if ($flags instanceof FlagModel)
+            $flags = $flags->flags();
 
-        array_map(function ($flag) {
-            $this->_flags[] = $flag;
-        }, $flags);
-
-        $this->build();
+        $this->_flags += $flags;
 
         return $this;
     }
@@ -77,21 +51,10 @@ class FlagModel
      */
     public function has($flags)
     {
-        if ($this->none()) {
-            return FALSE;
-        }
+        if ($flags instanceof FlagModel)
+            $flags = $flags->flags();
 
-        if (is_array($flags)) {
-            $all = TRUE;
-
-            foreach($flags as $flag)
-                if (!in_array($flag, $this->_flags))
-                    $all = FALSE;
-
-            return $all;
-        }
-
-        return in_array($flags, $this->_flags);
+        return (bool)(($this->_flags & $flags) == $flags);
     }
 
     /**
@@ -102,8 +65,9 @@ class FlagModel
      *
      * @return bool
      */
-    public function not($flags)
-    {
+    public function not(
+        $flags
+    ) {
         return !$this->has($flags);
     }
 
@@ -124,6 +88,6 @@ class FlagModel
      */
     public function none()
     {
-        return empty($this->_flags);
+        return (bool)($this->_flags == 0);
     }
 }

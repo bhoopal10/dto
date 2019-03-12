@@ -32,18 +32,27 @@ trait DtoToArray
             $varName  = $varRef->getName();
             $varValue = $varRef->getValue($this);
 
-            if (Iof::stringable($varValue) && $flags->serializeStringProviders()) {
+            if ($getter = Obj::methodExists($this, 'get', $varName)) {
+                $array[ $varName ] = $this->$getter();
+            } elseif (
+                Iof::stringable($varValue) &&
+                $flags->serializeStringProviders() &&
+                $flags->preferStringProviders()
+            ) {
                 $array[ $varName ] = $varValue->__toString();
-            } elseif (Iof::arrayable($varValue) && $flags->serializeObjects()) {
+            } elseif (
+                Iof::arrayable($varValue) &&
+                $flags->serializeObjects()
+            ) {
                 $array[ $varName ] = $varValue->toArray();
+            } elseif (
+                Iof::stringable($varValue) &&
+                $flags->serializeStringProviders() &&
+                !$flags->preferStringProviders()
+            ) {
+                $array[ $varName ] = $varValue->__toString();
             } else {
-                $getter = Obj::methodExists($this, 'get', $varName);
-
-                if ($getter) {
-                    $array[ $varName ] = $this->$getter();
-                } else {
-                    $array[ $varName ] = $varValue;
-                }
+                $array[ $varName ] = $varValue;
             }
         }
 

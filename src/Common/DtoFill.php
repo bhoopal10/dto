@@ -61,10 +61,7 @@ trait DtoFill
 
                 if ($setter) {
                     $varValue = $this->$setter($varValue);
-
-                    if (!is_null($varValue)) {
-                        $variable->setValue($this, $varValue);
-                    }
+                    $variable->setValue($this, $varValue);
                 } else {
                     $variable->setValue($this, $varValue);
                 }

@@ -10,7 +10,7 @@ use ReflectionProperty;
 trait DtoToArray
 {
     /**
-     * @param array|int Additional flags from DtoToArrayFlags?
+     * @param array|int Additional flags from DtoToArrayFlags
      *
      * @return array
      * @throws \ReflectionException

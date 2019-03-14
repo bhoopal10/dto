@@ -2,8 +2,6 @@
 
 namespace Fnp\Dto\Common;
 
-use Fnp\Dto\Common\Flags\DtoToArrayFlags;
-
 trait DtoToJson
 {
     abstract public function toArray($flags = NULL);
@@ -15,10 +13,8 @@ trait DtoToJson
      *
      * @return string
      */
-    public function toJson(
-        $options = 0,
-        $flags = DtoToArrayFlags::SERIALIZE_OBJECTS + DtoToArrayFlags::SERIALIZE_STRING_PROVIDERS
-    ) {
+    public function toJson($options = 0, $flags = NULL)
+    {
         return json_encode($this->toArray($flags), $options);
     }
 }

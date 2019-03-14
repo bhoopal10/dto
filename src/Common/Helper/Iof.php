@@ -24,4 +24,12 @@ class Iof
 
         return method_exists($object, '__toString');
     }
+
+    public static function jsonable($object)
+    {
+        if (!is_object($object))
+            return FALSE;
+
+        return method_exists($object, 'toJson');
+    }
 }

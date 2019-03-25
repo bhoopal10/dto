@@ -18,13 +18,15 @@ class DtoCollectionFactory
      * Converts existing collection to use models of a given class
      * or creates a new one.
      *
-     * @param string $dtoClass
+     * @param string                 $dtoClass
      * @param Collection|array|mixed $collection
+     *
+     * @param null                   $key
      *
      * @return Collection|null
      * @throws DtoClassNotExistsException
      */
-    public static function make($dtoClass, $collection)
+    public static function make($dtoClass, $collection, $key = NULL)
     {
         if (!$collection) {
             $collection = [];
@@ -50,6 +52,15 @@ class DtoCollectionFactory
             /** @var DtoModel $dtoClass */
             return $dtoClass::make($item);
         });
+
+        if ($key)
+            $collection = $collection->pipe(function($c) use ($key) {
+                $keyable = new Collection();
+                $c->each(function($m) use ($keyable, $key) {
+                    $keyable->put($m->$key, $m);
+                });
+                return $keyable;
+            });
 
         return $collection;
     }

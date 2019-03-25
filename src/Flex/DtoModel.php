@@ -16,7 +16,7 @@ abstract class DtoModel implements DtoModelContract, Arrayable
     use DtoToArray;
     use DtoToJson;
     use DtoFill;
-    
+
     /**
      * Make model with initial data
      *
@@ -36,13 +36,18 @@ abstract class DtoModel implements DtoModelContract, Arrayable
     /**
      * Make model collection with initial data
      *
-     * @param $items
+     * @param mixed  $items Data
+     *
+     * @param string $key   For associative collection provide a model key
      *
      * @return Collection|null
-     * @throws Exception\DtoClassNotExistsException
      */
-    public static function collection($items)
+    public static function collection($items, $key = NULL)
     {
-        return DtoCollectionFactory::make(get_called_class(), $items);
+        try {
+            return DtoCollectionFactory::make(get_called_class(), $items, $key);
+        } catch (Exception\DtoClassNotExistsException $e) {
+            return new Collection([]);
+        }
     }
 }

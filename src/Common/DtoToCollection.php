@@ -2,7 +2,7 @@
 
 namespace Fnp\Dto\Common;
 
-use Illuminate\Support\Collection;
+use Tightenco\Collect\Support\Collection;
 
 trait DtoToCollection
 {

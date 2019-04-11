@@ -40,11 +40,11 @@ class DtoCollectionFactory
             $collection = get_object_vars($collection);
         }
 
-        if (Iof::arrayable($collection)) {
+        if (Iof::arrayable($collection) && !Iof::collection($collection)) {
             $collection = $collection->toArray($flags);
         }
 
-        if (!$collection instanceof Collection) {
+        if (!Iof::collection($collection)) {
             $collection = new Collection($collection);
         }
 

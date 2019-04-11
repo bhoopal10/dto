@@ -32,4 +32,22 @@ class Iof
 
         return method_exists($object, 'toJson');
     }
+
+    public static function collection($object)
+    {
+        if (!is_object($object))
+            return FALSE;
+
+        return method_exists($object, 'contains') &&
+               method_exists($object, 'push') &&
+               method_exists($object, 'tap');
+    }
+
+    public static function eloquent($object)
+    {
+        if (!is_object($object))
+            return FALSE;
+
+        return method_exists($object, 'getRouteKeyName');
+    }
 }

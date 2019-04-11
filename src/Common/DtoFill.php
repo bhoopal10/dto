@@ -22,7 +22,9 @@ trait DtoFill
             return;
         }
 
-        if (!Arr::accessible($items) && Iof::arrayable($items)) {
+        if (!Arr::accessible($items) &&
+            Iof::arrayable($items) &&
+            !Iof::eloquent($items)) {
             $items = $items->toArray();
         }
 

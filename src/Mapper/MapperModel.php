@@ -17,16 +17,17 @@ class MapperModel extends DtoModel
     /**
      * Make model collection with initial data
      *
-     * @param mixed  $items Data
+     * @param mixed      $items Data
      *
-     * @param string $key   For associative collection provide a model key
+     * @param string     $key   For associative collection provide a model key
+     * @param null|array $flags Flags
      *
      * @return Collection|null
      */
-    public static function collection($items, $key = NULL)
+    public static function collection($items, $key = NULL, $flags = NULL)
     {
         try {
-            return DtoCollectionFactory::make(get_called_class(), $items, $key);
+            return DtoCollectionFactory::make(get_called_class(), $items, $key, $flags);
         } catch (DtoClassNotExistsException $e) {
             return new Collection([]);
         }

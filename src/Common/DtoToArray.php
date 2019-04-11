@@ -2,7 +2,7 @@
 
 namespace Fnp\Dto\Common;
 
-use Fnp\Dto\Common\Flags\DtoToArrayFlags;
+use Fnp\Dto\Common\Flags\DtoFlags;
 use Fnp\Dto\Common\Helper\Iof;
 use Fnp\Dto\Common\Helper\Obj;
 use ReflectionProperty;
@@ -17,10 +17,10 @@ trait DtoToArray
      */
     public function toArray($flags = NULL)
     {
-        $flags      = new DtoToArrayFlags($flags);
+        $flags      = new DtoFlags($flags);
         $reflection = new \ReflectionClass($this);
         $vars       = $reflection->getProperties(
-            $flags->reflectionOptions()
+            $flags->toArrayReflectionOptions()
         );
 
         $array = [];

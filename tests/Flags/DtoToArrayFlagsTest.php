@@ -1,14 +1,14 @@
 <?php
 
 
-use Fnp\Dto\Common\Flags\DtoToArrayFlags;
+use Fnp\Dto\Common\Flags\DtoFlags;
 
 class DtoToArrayFlagsTest extends \PHPUnit\Framework\TestCase
 {
     public function data()
     {
         return [
-            'Default Options' => [
+            'Default Options'                   => [
                 NULL, // Flags
                 TRUE, // Serialize Objects
                 FALSE, // Serialize String Providers
@@ -17,8 +17,8 @@ class DtoToArrayFlagsTest extends \PHPUnit\Framework\TestCase
                 ReflectionProperty::IS_PUBLIC +
                 ReflectionProperty::IS_PROTECTED,
             ],
-            'Dont Serialize Objects' => [
-                DtoToArrayFlags::DONT_SERIALIZE_OBJECTS, // Flags
+            'Dont Serialize Objects'            => [
+                DtoFlags::TO_ARRAY_DONT_SERIALIZE_OBJECTS, // Flags
                 FALSE, // Serialize Objects
                 FALSE, // Serialize String Providers
                 FALSE, // Exclude Nulls
@@ -26,8 +26,8 @@ class DtoToArrayFlagsTest extends \PHPUnit\Framework\TestCase
                 ReflectionProperty::IS_PUBLIC +
                 ReflectionProperty::IS_PROTECTED,
             ],
-            'Serialize Strings' => [
-                DtoToArrayFlags::SERIALIZE_STRING_PROVIDERS, // Flags
+            'Serialize Strings'                 => [
+                DtoFlags::TO_ARRAY_SERIALIZE_STRING_PROVIDERS, // Flags
                 TRUE, // Serialize Objects
                 TRUE, // Serialize String Providers
                 FALSE, // Exclude Nulls
@@ -35,9 +35,9 @@ class DtoToArrayFlagsTest extends \PHPUnit\Framework\TestCase
                 ReflectionProperty::IS_PUBLIC +
                 ReflectionProperty::IS_PROTECTED,
             ],
-            'Serialize Strings and Prefer' => [
-                DtoToArrayFlags::SERIALIZE_STRING_PROVIDERS +
-                DtoToArrayFlags::PREFER_STRING_PROVIDERS, // Flags
+            'Serialize Strings and Prefer'      => [
+                DtoFlags::TO_ARRAY_SERIALIZE_STRING_PROVIDERS +
+                DtoFlags::TO_ARRAY_PREFER_STRING_PROVIDERS, // Flags
                 TRUE, // Serialize Objects
                 TRUE, // Serialize String Providers
                 FALSE, // Exclude Nulls
@@ -46,8 +46,8 @@ class DtoToArrayFlagsTest extends \PHPUnit\Framework\TestCase
                 ReflectionProperty::IS_PROTECTED,
             ],
             'Serialize Strings but not Objects' => [
-                DtoToArrayFlags::DONT_SERIALIZE_OBJECTS +
-                DtoToArrayFlags::SERIALIZE_STRING_PROVIDERS, // Flags
+                DtoFlags::TO_ARRAY_DONT_SERIALIZE_OBJECTS +
+                DtoFlags::TO_ARRAY_SERIALIZE_STRING_PROVIDERS, // Flags
                 FALSE, // Serialize Objects
                 TRUE, // Serialize String Providers
                 FALSE, // Exclude Nulls
@@ -77,7 +77,7 @@ class DtoToArrayFlagsTest extends \PHPUnit\Framework\TestCase
         $preferStringProviders,
         $reflectionOptions
     ) {
-        $f = DtoToArrayFlags::make($flags);
+        $f = DtoFlags::make($flags);
 
         $this->assertEquals(
             $serializeObjects,
@@ -105,7 +105,7 @@ class DtoToArrayFlagsTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             $reflectionOptions,
-            $f->reflectionOptions(),
+            $f->toArrayReflectionOptions(),
             'Reflection Options'
         );
     }

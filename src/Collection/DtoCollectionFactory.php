@@ -20,13 +20,13 @@ class DtoCollectionFactory
      *
      * @param string                 $dtoClass
      * @param Collection|array|mixed $collection
-     *
      * @param null                   $key
+     * @param null                   $flags
      *
      * @return Collection|null
      * @throws DtoClassNotExistsException
      */
-    public static function make($dtoClass, $collection, $key = NULL)
+    public static function make($dtoClass, $collection, $key = NULL, $flags = NULL)
     {
         if (!$collection) {
             $collection = [];
@@ -41,16 +41,16 @@ class DtoCollectionFactory
         }
 
         if (Iof::arrayable($collection)) {
-            $collection = $collection->toArray();
+            $collection = $collection->toArray($flags);
         }
 
         if (!$collection instanceof Collection) {
             $collection = new Collection($collection);
         }
 
-        $collection = $collection->map(function ($item, $key) use ($dtoClass) {
+        $collection = $collection->map(function ($item, $key) use ($dtoClass, $flags) {
             /** @var DtoModel $dtoClass */
-            return $dtoClass::make($item);
+            return $dtoClass::make($item, $flags);
         });
 
         if ($key)

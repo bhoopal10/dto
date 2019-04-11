@@ -1,6 +1,7 @@
 <?php
 
 use Fnp\Dto\Common\Flags\DtoFillFlags;
+use Fnp\Dto\Common\Flags\DtoFlags;
 
 class DtoFillTest extends \PHPUnit\Framework\TestCase
 {
@@ -15,23 +16,23 @@ class DtoFillTest extends \PHPUnit\Framework\TestCase
                 1, 1, 1,
             ],
             'Fill Public Only'                  => [
-                DtoFillFlags::FILL_PUBLIC,
+                DtoFlags::FILL_PUBLIC,
                 1, NULL, NULL,
             ],
             'Fill Protected Only'               => [
-                DtoFillFlags::FILL_PROTECTED,
+                DtoFlags::FILL_PROTECTED,
                 NULL, 1, NULL,
             ],
             'Fill Private Only'                 => [
-                DtoFillFlags::FILL_PRIVATE,
+                DtoFlags::FILL_PRIVATE,
                 NULL, NULL, 1,
             ],
             'Fill Public & Protected'           => [
-                [DtoFillFlags::FILL_PUBLIC, DtoFillFlags::FILL_PROTECTED],
+                [DtoFlags::FILL_PUBLIC, DtoFlags::FILL_PROTECTED],
                 1, 1, NULL,
             ],
             'Fill Public & Private'             => [
-                DtoFillFlags::FILL_PUBLIC + DtoFillFlags::FILL_PRIVATE,
+                DtoFlags::FILL_PUBLIC + DtoFlags::FILL_PRIVATE,
                 1, NULL, 1,
             ],
         ];

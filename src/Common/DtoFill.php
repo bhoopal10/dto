@@ -2,7 +2,7 @@
 
 namespace Fnp\Dto\Common;
 
-use Fnp\Dto\Common\Flags\DtoFillFlags;
+use Fnp\Dto\Common\Flags\DtoFlags;
 use Fnp\Dto\Common\Helper\Iof;
 use Fnp\Dto\Common\Helper\Obj;
 use Fnp\Dto\Common\Helper\Str;
@@ -36,8 +36,8 @@ trait DtoFill
             return;
         }
 
-        $flags = DtoFillFlags::make($flags);
-        $vars  = $reflection->getProperties($flags->reflectionOptions());
+        $flags = DtoFlags::make($flags);
+        $vars  = $reflection->getProperties($flags->fillReflectionOptions());
 
         foreach ($vars as $variable) {
 

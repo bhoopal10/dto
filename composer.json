@@ -10,7 +10,7 @@
   "minimum-stability": "RC",
   "prefer-stable": true,
   "require": {
-    "tightenco/collect": "^5.7",
+    "tightenco/collect": "^9.4.1",
     "ext-json": "*"
   },
   "autoload": {

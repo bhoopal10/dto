@@ -1,10 +1,10 @@
 {
-  "name": "framesnpictures/dto",
+  "name": "framesnpictures-laravel/dto",
   "description": "Universal Data Transport Objects",
   "authors": [
     {
-      "name": "Chris Cynarski",
-      "email": "chris@cynarski.net"
+      "name": "Bhoopal",
+      "email": "bhoopal10@gmail.com"
     }
   ],
   "minimum-stability": "RC",
